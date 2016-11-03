@@ -33,5 +33,5 @@ Vagrant.configure(VAGRANTFILE_VERSION) do |config|
   config.vm.synced_folder sitedata_hostpath, sitedata_vmpath
 
   # Define the bootstrap file: A (shell) script that runs after first setup of your box (= provisioning)
-  config.vm.provision :shell, path: "vartest.sh", :args => [db_type, db_name, db_user, db_pass, sitedata_hostpath, sitedata_vmpath]
+  config.vm.provision :shell, path: "bootstrap.sh", :args => [db_type, db_name, db_user, db_pass, wwwroot_hostpath, wwwroot_vmpath, sitedata_hostpath, sitedata_vmpath]
 end
