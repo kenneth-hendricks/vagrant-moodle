@@ -13,3 +13,4 @@
 * local URLS, added to host hosts
 * create custom moodle config.php
 * logging
+* Cron
