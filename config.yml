@@ -16,5 +16,6 @@ sitedata:
     hostpath: ./sitedata #relative to vagrant folder / or not
     vmpath: /var/www/sitedata #full path
 
-
-
+moodle:
+    unittests: true
+    

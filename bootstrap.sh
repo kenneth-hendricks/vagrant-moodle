@@ -19,11 +19,14 @@ sudo apt-get -y upgrade
 sudo apt-get install -y apache2
 sudo apt-get install -y php5
 
-# install mysql and give password to installer
-sudo debconf-set-selections <<< "mysql-server mysql-server/root_password password $db_pass"
-sudo debconf-set-selections <<< "mysql-server mysql-server/root_password_again password $db_pass"
-sudo apt-get -y install mysql-server
-sudo apt-get install php5-mysql
+if [ $db_type -eq 'pgsql' ]
+then
+  # install postrgres and apache libs
+  sudo apt-get install -y postgresql postgresql-contrib
+  sudo apt-get install -y libapache2-mod-php5 php5-pgsql
+  sudo -u postgres psql -c 'CREATE USER "${db_user}" WITH PASSWORD "${db_pass}";'
+
+fi
 
 # setup hosts file
 VHOST=$(cat <<EOF
