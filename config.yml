@@ -1,0 +1,20 @@
+db:
+  type: pgsql
+  name: moodle
+  user: moodleuser
+  pass: yourpassword
+
+wwwroot:
+    hostpath: ./wwwroot #relative to vagrant folder / or not
+    vmpath: /var/www/wwwroot #full path
+    git:
+        clone: true
+        url: git@git.catalyst-au.net:elearning/kmart.git
+        branch: t2-client-kmart
+
+sitedata:
+    hostpath: ./sitedata #relative to vagrant folder / or not
+    vmpath: /var/www/sitedata #full path
+
+
+
