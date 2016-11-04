@@ -5,7 +5,7 @@ db:
   pass: yourpassword
 
 wwwroot:
-    hostpath: ./wwwroot #relative to vagrant folder / or not
+    hostpath: ./wwwroot #relative to vagrant folder / or full path
     vmpath: /var/www/wwwroot #full path
     git:
         clone: true
@@ -13,9 +13,9 @@ wwwroot:
         branch: t2-client-kmart
 
 sitedata:
-    hostpath: ./sitedata #relative to vagrant folder / or not
+    hostpath: ./sitedata #relative to vagrant folder / or full path
     vmpath: /var/www/sitedata #full path
 
-moodle:
+optional:
     unittests: true
-    
+    dbdump:

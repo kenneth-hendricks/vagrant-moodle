@@ -15,17 +15,18 @@ echo "### $db_type $db_name $db_user $db_pass $sitedata_hostlocation $sitedata_v
 sudo apt-get update
 sudo apt-get -y upgrade
 
-# install apache 2.5 and php 5.5
+# install apache2 and php 5
 sudo apt-get install -y apache2
 sudo apt-get install -y php5
 
-if [ $db_type -eq 'pgsql' ]
+#conditional DB install - either pgsql or mysql
+if [ "$db_type" == "pgsql" ]
 then
   # install postrgres and apache libs
   sudo apt-get install -y postgresql postgresql-contrib
   sudo apt-get install -y libapache2-mod-php5 php5-pgsql
-  sudo -u postgres psql -c 'CREATE USER "${db_user}" WITH PASSWORD "${db_pass}";'
-
+  sudo -u postgres psql -c "CREATE USER $db_user WITH PASSWORD '$db_pass';"
+  sudo -u postgres psql -c "CREATE DATABASE $db_name WITH OWNER $db_user;"
 fi
 
 # setup hosts file
