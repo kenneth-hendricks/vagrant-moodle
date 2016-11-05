@@ -1,21 +1,14 @@
 # To do
-* xdebug
-* permissions on sitedata
-* auto install psql/mysql and create DB
-* Config file with constants
-* load DB dump if present, change owner
-* utils scripts accessable, add to git exclude, reset all passwords
-* composer init tests
-* Networking?
-* config hardware
-* create readme
+* Github clone
+* config.php templating - python mustache
+* db dump loading scripts
+* conditional setup of phpunit tests, xdebug, xhprof
+* Bridged adapter network
 * php7 version
-* local URLS, added to host hosts
-* create custom moodle config.php
-* logging
-* Cron
-* Don't share sitedata.
-
-prescript
-vagrantfile
-provisioning
+* custom .local hosts config
+* custom logging location
+* yaml validification
+* cron setup
+* mysql DB install code
+* size change script
+* custom moodle scripts? place in admin/cli/custom + exclude.
