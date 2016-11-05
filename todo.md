@@ -14,7 +14,7 @@
 * create custom moodle config.php
 * logging
 * Cron
-
+* Don't share sitedata.
 
 prescript
 vagrantfile

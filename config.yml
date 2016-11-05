@@ -8,14 +8,9 @@ wwwroot:
     hostpath: ./wwwroot #relative to vagrant folder / or full path
     vmpath: /var/www/wwwroot #full path
     git:
-        clone: true
-        url: git@git.catalyst-au.net:elearning/kmart.git
-        branch: t2-client-kmart
+        url: git@github.com:moodle/moodle.git
+        branch: MOODLE_31_STABLE
 
 sitedata:
     hostpath: ./sitedata #relative to vagrant folder / or full path
     vmpath: /var/www/sitedata #full path
-
-optional:
-    unittests: true
-    dbdump:
