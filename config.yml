@@ -4,13 +4,21 @@ db:
   user: moodleuser
   pass: yourpassword
 
-wwwroot:
-    hostpath: ./wwwroot #relative to vagrant folder / or full path
-    vmpath: /var/www/wwwroot #full path
-    git:
-        url: git@github.com:moodle/moodle.git
-        branch: MOODLE_31_STABLE
+siteroot:
+  hostpath: wwwroot #relative to vagrant folder
+  vmpath: /var/www/wwwroot #full path
+  git:
+    url: git@github.com:moodle/moodle.git
+    branch: MOODLE_31_STABLE
+
+site:
+  name:
+    full: moodle
+    short: moodle
+  admin:
+    user: admin
+    pass: password
 
 sitedata:
-    hostpath: ./sitedata #relative to vagrant folder / or full path
-    vmpath: /var/www/sitedata #full path
+  hostpath: sitedata #relative to vagrant folder
+  vmpath: /var/www/sitedata #full path

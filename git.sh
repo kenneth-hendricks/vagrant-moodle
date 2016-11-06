@@ -1,13 +1,16 @@
 #!/usr/bin/env bash
 
-wwwroot_hostlocation=$1
-wwwroot_git_url=$2
-wwwroot_git_branch=$3
+siteroot_hostlocation=$1
+siteroot_git_url=$2
+siteroot_git_branch=$3
 
-mkdir -p $wwwroot_hostlocation
-if [ ! -e "$wwwroot_hostlocation/.git" ]
+mkdir -p $siteroot_hostlocation
+if [ ! -e "$siteroot_hostlocation/.git" ]
   then
-    git clone -b $wwwroot_git_branch $wwwroot_git_url $wwwroot_hostlocation
+    git clone -b $siteroot_git_branch $siteroot_git_url $siteroot_hostlocations
   else
     echo '.git file already exists'
 fi
+
+# ignore wwroot from vagrant repo
+echo $siteroot_hostlocation >> .git/info/exclude

@@ -13,12 +13,34 @@ db_type = config['db']['type']
 db_name = config['db']['name']
 db_user = config['db']['user']
 db_pass = config['db']['pass']
-wwwroot_hostpath = config['wwwroot']['hostpath']
-wwwroot_vmpath = config['wwwroot']['vmpath']
+siteroot_hostpath = config['siteroot']['hostpath']
+siteroot_vmpath = config['siteroot']['vmpath']
 sitedata_hostpath = config['sitedata']['hostpath']
 sitedata_vmpath = config['sitedata']['vmpath']
-wwwroot_git_url = config['wwwroot']['git']['url'];
-wwwroot_git_branch = config['wwwroot']['git']['branch'];
+siteroot_git_url = config['siteroot']['git']['url'];
+siteroot_git_branch = config['siteroot']['git']['branch'];
+wwwroot = '192.168.33.22';
+site_name_full = config['site']['name']['full'];
+site_name_short = config['site']['name']['short'];
+site_admin_user = config['site']['admin']['user'];
+site_admin_pass = config['site']['admin']['pass'];
+
+puts db_type;
+puts db_name;
+puts db_user;
+puts db_pass;
+puts siteroot_hostpath;
+puts siteroot_vmpath;
+puts sitedata_hostpath;
+puts sitedata_vmpath;
+puts siteroot_git_url;
+puts siteroot_git_branch;
+puts wwwroot;
+puts site_name_full;
+puts site_name_short;
+puts site_admin_user;
+puts site_admin_pass;
+
 
 if !Vagrant.has_plugin?("vagrant-triggers")
     puts "'vagrant-triggers' plugin is required"
@@ -36,19 +58,18 @@ Vagrant.configure(VAGRANTFILE_VERSION) do |config|
   config.vm.box = "ubuntu/trusty64"
 
   # Create a private network, which allows host-only access to the machine using a specific IP.
-  config.vm.network "private_network", ip: "192.168.33.22"
+  config.vm.network "private_network", ip: wwwroot
 
-  # Site data and wwwroot folders.
-  config.vm.synced_folder wwwroot_hostpath, wwwroot_vmpath
-
-  # Define the bootstrap file: A (shell) script that runs after first setup of your box (= provisioning)
-  config.vm.provision :shell, path: "bootstrap.sh", :args => [db_type, db_name, db_user, db_pass, wwwroot_hostpath, wwwroot_vmpath, sitedata_hostpath, sitedata_vmpath]
+  # Site data and siteroot folders.
+  config.vm.synced_folder siteroot_hostpath, siteroot_vmpath
 
   config.vm.provision "trigger", :option => "value" do |trigger|
     trigger.fire do
-    run "./git.sh #{wwwroot_hostpath} #{wwwroot_git_url} #{wwwroot_git_branch}"
+    run "./git.sh #{siteroot_hostpath} #{siteroot_git_url} #{siteroot_git_branch}"
     end
   end
 
+  # Define the bootstrap file: A (shell) script that runs after first setup of your box (= provisioning)
+  config.vm.provision :shell, path: "bootstrap.sh", :args => [db_type, db_name, db_user, db_pass, siteroot_hostpath, siteroot_vmpath, sitedata_hostpath, sitedata_vmpath, wwwroot, site_name_full, site_name_short, site_admin_user, site_admin_pass]
 
 end
