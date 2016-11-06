@@ -9,7 +9,7 @@ if [ ! -e "$siteroot_hostlocation/.git" ]
   then
     git clone -b $siteroot_git_branch $siteroot_git_url $siteroot_hostlocations
   else
-    echo '.git file already exists'
+    echo '.git file already exists, not cloning'
 fi
 
 # ignore wwroot from vagrant repo

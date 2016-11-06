@@ -9,10 +9,11 @@ siteroot_vmpath=$6
 sitedata_hostpath=$7
 sitedata_vmpath=$8
 wwwroot=$9;
-site_name_full=$10
-site_name_short=$11
-site_admin_user=$12
-site_admin_pass=$13
+site_name_full=${10}
+site_name_short=${11}
+site_admin_user=${12}
+site_admin_pass=${13}
+site_admin_email=${14}
 
 echo "### $db_type $db_name $db_user $db_pass $sitedata_hostpath $sitedata_vmpath"
 
@@ -57,7 +58,7 @@ sudo a2enmod rewrite
 # restart apache
 service apache2 restart
 
-sudo php $siteroot_vmpath/admin/cli/install.php --non-interactive --wwwroot=$wwwroot --dataroot=$sitedata_vmpath --dbtype=$db_type --dbname=$db_name --dbuser=$db_user --dbpass=$db_pass --fullname=$site_name_full --shortname=$site_name_short --adminuser=$site_admin_user --adminpass=$site_admin_pass --agree-license
+sudo php $siteroot_vmpath/admin/cli/install.php --non-interactive --wwwroot=http://$wwwroot --dataroot=$sitedata_vmpath --dbtype=$db_type --dbname=$db_name --dbuser=$db_user --dbpass=$db_pass --fullname=$site_name_full --shortname=$site_name_short --adminuser=$site_admin_user --adminpass=$site_admin_pass --adminemail=$site_admin_email --agree-license
 chmod a+r $siteroot_vmpath/config.php
 
 

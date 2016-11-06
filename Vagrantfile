@@ -24,6 +24,7 @@ site_name_full = config['site']['name']['full'];
 site_name_short = config['site']['name']['short'];
 site_admin_user = config['site']['admin']['user'];
 site_admin_pass = config['site']['admin']['pass'];
+site_admin_email = config['site']['admin']['email'];
 
 puts db_type;
 puts db_name;
@@ -40,6 +41,7 @@ puts site_name_full;
 puts site_name_short;
 puts site_admin_user;
 puts site_admin_pass;
+puts site_admin_email;
 
 
 if !Vagrant.has_plugin?("vagrant-triggers")
@@ -70,6 +72,6 @@ Vagrant.configure(VAGRANTFILE_VERSION) do |config|
   end
 
   # Define the bootstrap file: A (shell) script that runs after first setup of your box (= provisioning)
-  config.vm.provision :shell, path: "bootstrap.sh", :args => [db_type, db_name, db_user, db_pass, siteroot_hostpath, siteroot_vmpath, sitedata_hostpath, sitedata_vmpath, wwwroot, site_name_full, site_name_short, site_admin_user, site_admin_pass]
+  config.vm.provision :shell, path: "bootstrap.sh", :args => [db_type, db_name, db_user, db_pass, siteroot_hostpath, siteroot_vmpath, sitedata_hostpath, sitedata_vmpath, wwwroot, site_name_full, site_name_short, site_admin_user, site_admin_pass, site_admin_email]
 
 end
