@@ -11,6 +11,9 @@ sitedata_vmlocation=$8
 
 echo "### $db_type $db_name $db_user $db_pass $sitedata_hostlocation $sitedata_vmlocation"
 
+sudo mkdir -p $sitedata_vmlocation
+sudo chmod 0777 $sitedata_vmlocation
+
 # update / upgrade
 sudo apt-get update
 sudo apt-get -y upgrade
@@ -18,6 +21,7 @@ sudo apt-get -y upgrade
 # install apache2 and php 5
 sudo apt-get install -y apache2
 sudo apt-get install -y php5
+sudo apt-get install -y php5-curl php5-gd php5-xmlrpc php5-intl
 
 #conditional DB install - either pgsql or mysql
 if [ "$db_type" == "pgsql" ]
@@ -47,9 +51,6 @@ sudo a2enmod rewrite
 
 # restart apache
 service apache2 restart
-
-# install git
-sudo apt-get -y install git
 
 # install Composer
 curl -s https://getcomposer.org/installer | php
