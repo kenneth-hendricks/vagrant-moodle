@@ -1,6 +1,4 @@
 # To do
-* Github clone
-* config.php templating - python mustache
 * db dump loading scripts
 * conditional setup of phpunit tests, xdebug, xhprof
 * Bridged adapter network
