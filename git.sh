@@ -7,7 +7,7 @@ siteroot_git_branch=$3
 mkdir -p $siteroot_hostlocation
 if [ ! -e "$siteroot_hostlocation/.git" ]
   then
-    git clone -b $siteroot_git_branch $siteroot_git_url $siteroot_hostlocations
+    git clone -b $siteroot_git_branch $siteroot_git_url $siteroot_hostlocation
   else
     echo '.git file already exists, not cloning'
 fi
