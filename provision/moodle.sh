@@ -15,6 +15,8 @@ site_admin_user=${12}
 site_admin_pass=${13}
 site_admin_email=${14}
 
+ip="$(ifconfig eth1 | grep 'inet addr:' | cut -d: -f2 | awk '{ print $1}')"
+
 sudo mkdir -p $sitedata_vmpath
 sudo chmod 0777 $sitedata_vmpath
 
@@ -37,6 +39,6 @@ sudo a2enmod rewrite
 # restart apache
 service apache2 restart
 
-sudo php $siteroot_vmpath/admin/cli/install.php --non-interactive --wwwroot=http://$wwwroot --dataroot=$sitedata_vmpath --dbtype=$db_type --dbname=$db_name --dbuser=$db_user --dbpass=$db_pass --fullname=$site_name_full --shortname=$site_name_short --adminuser=$site_admin_user --adminpass=$site_admin_pass --adminemail=$site_admin_email --agree-license
+sudo php $siteroot_vmpath/admin/cli/install.php --non-interactive --wwwroot=http://$ip --dataroot=$sitedata_vmpath --dbtype=$db_type --dbname=$db_name --dbuser=$db_user --dbpass=$db_pass --fullname=$site_name_full --shortname=$site_name_short --adminuser=$site_admin_user --adminpass=$site_admin_pass --adminemail=$site_admin_email --agree-license
 chmod a+r $siteroot_vmpath/config.php
 

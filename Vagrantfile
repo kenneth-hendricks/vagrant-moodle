@@ -69,7 +69,7 @@ Vagrant.configure(VAGRANTFILE_VERSION) do |config|
   config.vm.box = "ubuntu/trusty64"
 
   # Create a private network, which allows host-only access to the machine using a specific IP.
-  config.vm.network "private_network", ip: wwwroot
+  config.vm.network :public_network, :bridge => 'enp0s25'
 
   # Site data and siteroot folders.
   config.vm.synced_folder siteroot_hostpath, siteroot_vmpath
