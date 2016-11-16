@@ -1,5 +1,5 @@
 db:
-  type: pgsql
+  type: pgsql #pgsql or mysql
   name: moodle
   user: moodleuser
   pass: yourpassword
@@ -23,3 +23,8 @@ site:
 sitedata:
   hostpath: sitedata #relative to vagrant folder
   vmpath: /var/www/sitedata #full path
+
+virtualbox:
+  memory: 4096 # in mb
+  cores: 2
+  name: vagrant_moodle_box
