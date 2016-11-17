@@ -74,6 +74,8 @@ Vagrant.configure(VAGRANTFILE_VERSION) do |config|
   # Site data and siteroot folders.
   config.vm.synced_folder siteroot_hostpath, siteroot_vmpath
 
+  config.vm.hostname = virtualbox_name
+
   config.vm.provider "virtualbox" do |v|
     v.name = virtualbox_name
     v.memory = virtualbox_memory

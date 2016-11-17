@@ -27,4 +27,4 @@ sitedata:
 virtualbox:
   memory: 4096 # in mb
   cores: 2
-  name: vagrant_test_box
+  name: vagrant-test-box
