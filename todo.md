@@ -39,3 +39,22 @@ xdebug.remote_handler=dbgp
 xdebug.remote_mode=req
 xdebug.remote_autostart=true
 </pre>
+
+
+
+phpunit
+* install composer
+add:
+<pre>
+$CFG->phpunit_prefix = 'phpu_';
+$CFG->phpunit_dataroot = '/var/www/phpunitdataroot';
+</pre>
+to config
+* create /var/www/phpunitdataroot
+* chmod it
+make vendor dir
+chmod it
+cd siteroot
+composer install
+sudo locale-gen en_AU.UTF-8
+sudo -u www-data php admin/tool/phpunit/cli/init.php
