@@ -14,6 +14,7 @@
 * custom config settings.
 * review vagrant config.
 * vagrant halt bridged problem
+* set timezone 
 
 CREATE DATABASE eoz_totara DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 GRANT SELECT,INSERT,UPDATE,DELETE,CREATE,CREATE TEMPORARY TABLES,DROP,INDEX,ALTER ON eoz_totara.* TO eoz_totara@localhost IDENTIFIED BY 'yourpassword';
@@ -53,3 +54,7 @@ cd siteroot
 composer install
 sudo locale-gen en_AU.UTF-8
 sudo -u www-data php admin/tool/phpunit/cli/init.php
+
+
+Moodle 28 error: ==> default: Unrecognised options:
+==> default:   --adminemail=notanemail@notmail.com

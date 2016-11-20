@@ -72,7 +72,7 @@ Vagrant.configure(VAGRANTFILE_VERSION) do |config|
   config.vm.network :public_network, :bridge => 'enp0s25'
 
   # Site data and siteroot folders.
-  config.vm.synced_folder siteroot_hostpath, siteroot_vmpath
+  config.vm.synced_folder siteroot_hostpath, siteroot_vmpath, create: true
 
   config.vm.hostname = virtualbox_name
 

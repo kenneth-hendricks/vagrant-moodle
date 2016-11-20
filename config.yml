@@ -9,7 +9,7 @@ siteroot:
   vmpath: /var/www/siteroot #full path
   git:
     url: git@github.com:moodle/moodle.git
-    branch: MOODLE_31_STABLE
+    branch: MOODLE_28_STABLE
 
 site:
   name:
@@ -27,4 +27,4 @@ sitedata:
 virtualbox:
   memory: 4096 # in mb
   cores: 2
-  name: vagrant-test-box
+  name: moodle-28-box
