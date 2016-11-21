@@ -84,14 +84,14 @@ Vagrant.configure(VAGRANTFILE_VERSION) do |config|
 
   config.vm.provision "trigger", :option => "value" do |trigger|
     trigger.fire do
-    run "./git.sh #{siteroot_hostpath} #{siteroot_git_url} #{siteroot_git_branch}"
+    run "./provision/host/git.sh #{siteroot_hostpath} #{siteroot_git_url} #{siteroot_git_branch}"
     end
   end
 
   # Define the bootstrap file: A (shell) script that runs after first setup of your box (= provisioning)
-  config.vm.provision :shell, path: "provision/bootstrap.sh", :args => [db_type, db_name, db_user, db_pass, siteroot_hostpath, siteroot_vmpath, sitedata_hostpath, sitedata_vmpath, wwwroot, site_name_full, site_name_short, site_admin_user, site_admin_pass, site_admin_email]
-  config.vm.provision :shell, path: "provision/db.sh", :args => [db_type, db_name, db_user, db_pass, siteroot_hostpath, siteroot_vmpath, sitedata_hostpath, sitedata_vmpath, wwwroot, site_name_full, site_name_short, site_admin_user, site_admin_pass, site_admin_email]
-  config.vm.provision :shell, path: "provision/moodle.sh", :args => [db_type, db_name, db_user, db_pass, siteroot_hostpath, siteroot_vmpath, sitedata_hostpath, sitedata_vmpath, wwwroot, site_name_full, site_name_short, site_admin_user, site_admin_pass, site_admin_email]
-  config.vm.provision :shell, path: "provision/composer.sh", :args => [db_type, db_name, db_user, db_pass, siteroot_hostpath, siteroot_vmpath, sitedata_hostpath, sitedata_vmpath, wwwroot, site_name_full, site_name_short, site_admin_user, site_admin_pass, site_admin_email]
+  config.vm.provision :shell, path: "provision/vm/bootstrap.sh", :args => [db_type, db_name, db_user, db_pass, siteroot_hostpath, siteroot_vmpath, sitedata_hostpath, sitedata_vmpath, wwwroot, site_name_full, site_name_short, site_admin_user, site_admin_pass, site_admin_email]
+  config.vm.provision :shell, path: "provision/vm/db.sh", :args => [db_type, db_name, db_user, db_pass, siteroot_hostpath, siteroot_vmpath, sitedata_hostpath, sitedata_vmpath, wwwroot, site_name_full, site_name_short, site_admin_user, site_admin_pass, site_admin_email]
+  config.vm.provision :shell, path: "provision/vm/moodle.sh", :args => [db_type, db_name, db_user, db_pass, siteroot_hostpath, siteroot_vmpath, sitedata_hostpath, sitedata_vmpath, wwwroot, site_name_full, site_name_short, site_admin_user, site_admin_pass, site_admin_email]
+  config.vm.provision :shell, path: "provision/vm/composer.sh", :args => [db_type, db_name, db_user, db_pass, siteroot_hostpath, siteroot_vmpath, sitedata_hostpath, sitedata_vmpath, wwwroot, site_name_full, site_name_short, site_admin_user, site_admin_pass, site_admin_email]
 
 end
