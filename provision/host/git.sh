@@ -8,6 +8,8 @@ mkdir -p $siteroot_hostlocation
 if [ ! -e "$siteroot_hostlocation/.git" ]
   then
     git clone -b $siteroot_git_branch $siteroot_git_url $siteroot_hostlocation
+    git -C $siteroot_hostlocation submodule init
+    git -C $siteroot_hostlocation submodule update
   else
     echo '.git file already exists, not cloning'
 fi
