@@ -14,16 +14,21 @@ site_name_short=${11}
 site_admin_user=${12}
 site_admin_pass=${13}
 site_admin_email=${14}
+virtualbox_box=${15}
 
 # update / upgrade
 sudo apt-get update
 sudo apt-get -y upgrade
 
-# install apache2 and php 5
-sudo apt-get install -y apache2
-sudo apt-get install -y php5
-sudo apt-get install -y php5-curl php5-gd php5-xmlrpc php5-intl
-sudo apt-get install -y libapache2-mod-php5
+if [ "$virtualbox_box" == "ubuntu/trusty64" ]
+then
+    packages='apache2 php5 php5-curl php5-gd php5-xmlrpc php5-intl libapache2-mod-php5 php5-pgsql php5-mysql'
+elif [ "$virtualbox_box" == "ubuntu/xenial64" ]
+then
+    packages='apache2 php7.0 php7.0-curl php7.0-gd php7.0-xmlrpc php7.0-intl php7.0-xml php7.0-zip php7.0-mcrypt php7.0-mbstring php7.0-soap libapache2-mod-php7.0 php7.0-mysql php7.0-pgsql'
+fi
+
+sudo apt-get install -y $packages
 
 # setup hosts file
 VHOST=$(cat <<EOF

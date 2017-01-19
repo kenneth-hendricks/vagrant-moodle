@@ -14,6 +14,7 @@ site_name_short=${11}
 site_admin_user=${12}
 site_admin_pass=${13}
 site_admin_email=${14}
+virtualbox_box=${15}
 
 # install Composer
 curl -s https://getcomposer.org/installer | php

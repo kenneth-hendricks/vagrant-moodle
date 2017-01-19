@@ -25,6 +25,7 @@ sitedata:
   vmpath: /var/www/sitedata #full path
 
 virtualbox:
+  box: ubuntu/trusty64 #ubuntu/trusty64 or ubuntu/xenial64
   memory: 4096 # in mb
   cores: 2
   name: moodle-vagrant-box

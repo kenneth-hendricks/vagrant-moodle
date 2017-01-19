@@ -25,33 +25,10 @@ site_name_short = config['site']['name']['short'];
 site_admin_user = config['site']['admin']['user'];
 site_admin_pass = config['site']['admin']['pass'];
 site_admin_email = config['site']['admin']['email'];
-
+virtualbox_box = config['virtualbox']['box'];
 virtualbox_memory = config['virtualbox']['memory'];
 virtualbox_cores = config['virtualbox']['cores'];
 virtualbox_name = config['virtualbox']['name'];
-
-
-
-# puts db_type;
-# puts db_name;
-# puts db_user;
-# puts db_pass;
-# puts siteroot_hostpath;
-# puts siteroot_vmpath;
-# puts sitedata_hostpath;
-# puts sitedata_vmpath;
-# puts siteroot_git_url;
-# puts siteroot_git_branch;
-# puts wwwroot;
-# puts site_name_full;
-# puts site_name_short;
-# puts site_admin_user;
-# puts site_admin_pass;
-# puts site_admin_email;
-# puts virtualbox_memory;
-# puts virtualbox_cores;
-# puts virtualbox_name;
-
 
 if !Vagrant.has_plugin?("vagrant-triggers")
     puts "'vagrant-triggers' plugin is required"
@@ -62,11 +39,10 @@ if !Vagrant.has_plugin?("vagrant-triggers")
     exit
 end
 
-
 Vagrant.configure(VAGRANTFILE_VERSION) do |config|
 
   # Initial vagrant box to build off of.
-  config.vm.box = "ubuntu/trusty64"
+  config.vm.box = virtualbox_box
 
   # Create a private network, which allows host-only access to the machine using a specific IP.
   config.vm.network :public_network, :bridge => 'enp0s25'
@@ -88,10 +64,12 @@ Vagrant.configure(VAGRANTFILE_VERSION) do |config|
     end
   end
 
+  args_array = [db_type, db_name, db_user, db_pass, siteroot_hostpath, siteroot_vmpath, sitedata_hostpath, sitedata_vmpath, wwwroot, site_name_full, site_name_short, site_admin_user, site_admin_pass, site_admin_email, virtualbox_box]
+
   # Define the bootstrap file: A (shell) script that runs after first setup of your box (= provisioning)
-  config.vm.provision :shell, path: "provision/vm/bootstrap.sh", :args => [db_type, db_name, db_user, db_pass, siteroot_hostpath, siteroot_vmpath, sitedata_hostpath, sitedata_vmpath, wwwroot, site_name_full, site_name_short, site_admin_user, site_admin_pass, site_admin_email]
-  config.vm.provision :shell, path: "provision/vm/db.sh", :args => [db_type, db_name, db_user, db_pass, siteroot_hostpath, siteroot_vmpath, sitedata_hostpath, sitedata_vmpath, wwwroot, site_name_full, site_name_short, site_admin_user, site_admin_pass, site_admin_email]
-  config.vm.provision :shell, path: "provision/vm/moodle.sh", :args => [db_type, db_name, db_user, db_pass, siteroot_hostpath, siteroot_vmpath, sitedata_hostpath, sitedata_vmpath, wwwroot, site_name_full, site_name_short, site_admin_user, site_admin_pass, site_admin_email]
-  config.vm.provision :shell, path: "provision/vm/composer.sh", :args => [db_type, db_name, db_user, db_pass, siteroot_hostpath, siteroot_vmpath, sitedata_hostpath, sitedata_vmpath, wwwroot, site_name_full, site_name_short, site_admin_user, site_admin_pass, site_admin_email]
+  config.vm.provision :shell, path: "provision/vm/bootstrap.sh", :args => args_array
+  config.vm.provision :shell, path: "provision/vm/db.sh", :args => args_array
+  config.vm.provision :shell, path: "provision/vm/moodle.sh", :args => args_array
+  config.vm.provision :shell, path: "provision/vm/composer.sh", :args => args_array
 
 end

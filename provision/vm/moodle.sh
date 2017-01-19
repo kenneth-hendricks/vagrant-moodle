@@ -14,8 +14,15 @@ site_name_short=${11}
 site_admin_user=${12}
 site_admin_pass=${13}
 site_admin_email=${14}
+virtualbox_box=${15}
 
-ip="$(ifconfig eth1 | grep 'inet addr:' | cut -d: -f2 | awk '{ print $1}')"
+if [ "$virtualbox_box" == "ubuntu/trusty64" ]
+then
+    ip="$(ifconfig eth1 | grep 'inet addr:' | cut -d: -f2 | awk '{ print $1}')"
+elif [ "$virtualbox_box" == "ubuntu/xenial64" ]
+then
+    ip="$(ifconfig enp0s8 | grep 'inet addr:' | cut -d: -f2 | awk '{ print $1}')"
+fi
 
 sudo mkdir -p $sitedata_vmpath
 
