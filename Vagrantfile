@@ -1,75 +1,44 @@
-# -*- mode: ruby -*-
-# vi: set ft=ruby :
-
-#for config
 require 'yaml'
+require_relative 'yaml_config_validator'
+
+
 
 # Vagrantfile API version.
 VAGRANTFILE_VERSION = "2"
 
-config = YAML.load_file 'config.yml'
+yaml_config = YAML.load_file 'config.yml'
 
-db_type = config['db']['type']
-db_name = config['db']['name']
-db_user = config['db']['user']
-db_pass = config['db']['pass']
-siteroot_hostpath = config['siteroot']['hostpath']
-siteroot_vmpath = config['siteroot']['vmpath']
-sitedata_hostpath = config['sitedata']['hostpath']
-sitedata_vmpath = config['sitedata']['vmpath']
-siteroot_git_url = config['siteroot']['git']['url'];
-siteroot_git_branch = config['siteroot']['git']['branch'];
-wwwroot = '192.168.33.22';
-site_name_full = config['site']['name']['full'];
-site_name_short = config['site']['name']['short'];
-site_admin_user = config['site']['admin']['user'];
-site_admin_pass = config['site']['admin']['pass'];
-site_admin_email = config['site']['admin']['email'];
-virtualbox_box = config['virtualbox']['box'];
-virtualbox_memory = config['virtualbox']['memory'];
-virtualbox_cores = config['virtualbox']['cores'];
-virtualbox_name = config['virtualbox']['name'];
 
-if !Vagrant.has_plugin?("vagrant-triggers")
-    puts "'vagrant-triggers' plugin is required"
-    puts "This can be installed by running:"
-    puts
-    puts " vagrant plugin install vagrant-triggers"
-    puts
-    exit
-end
+validate_config(yaml_config)
+
+#puts config
 
 Vagrant.configure(VAGRANTFILE_VERSION) do |config|
 
-  # Initial vagrant box to build off of.
-  config.vm.box = virtualbox_box
+  config.vm.box = yaml_config['environment']['base']
+  config.vm.define yaml_config['environment']['name']
+  config.vm.hostname = yaml_config['environment']['name']
 
-  # Create a private network, which allows host-only access to the machine using a specific IP.
-  config.vm.network :public_network, :bridge => 'enp0s25'
+  config.vm.network "private_network", type: "dhcp"
 
-  # Site data and siteroot folders.
-  config.vm.synced_folder siteroot_hostpath, siteroot_vmpath, create: true
-
-  config.vm.hostname = virtualbox_name
-
-  config.vm.provider "virtualbox" do |v|
-    v.name = virtualbox_name
-    v.memory = virtualbox_memory
-    v.cpus = virtualbox_cores
+  config.vm.provider "virtualbox" do |vb|
+    vb.name = yaml_config['environment']['name']
+    vb.memory = yaml_config['virtualbox']['memory']
+    vb.cpus = yaml_config['virtualbox']['cores']
   end
 
-  config.vm.provision "trigger", :option => "value" do |trigger|
-    trigger.fire do
-    run "./provision/host/git.sh #{siteroot_hostpath} #{siteroot_git_url} #{siteroot_git_branch}"
-    end
-  end
 
-  args_array = [db_type, db_name, db_user, db_pass, siteroot_hostpath, siteroot_vmpath, sitedata_hostpath, sitedata_vmpath, wwwroot, site_name_full, site_name_short, site_admin_user, site_admin_pass, site_admin_email, virtualbox_box]
 
-  # Define the bootstrap file: A (shell) script that runs after first setup of your box (= provisioning)
-  config.vm.provision :shell, path: "provision/vm/bootstrap.sh", :args => args_array
-  config.vm.provision :shell, path: "provision/vm/db.sh", :args => args_array
-  config.vm.provision :shell, path: "provision/vm/moodle.sh", :args => args_array
-  config.vm.provision :shell, path: "provision/vm/composer.sh", :args => args_array
+  #config.vm.post_up_message = "You have made it!"
+  #config.ssh.insert_key = false
+  #config.vm.provider
+  #config.vm.provision
+  #config.vm.synced_folder
+  #config.ssh.forward_env forward host envs to guest
 
+  # config.vm.provision "ansible" do |ansible|
+  #   ansible.verbose = "v"
+  #   ansible.playbook = "playbook.yml"
+  # end
+  
 end

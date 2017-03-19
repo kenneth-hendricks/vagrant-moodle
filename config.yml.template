@@ -1,31 +1,23 @@
-db:
-  type: pgsql #pgsql or mysql
+# Database configuration 
+database:
+  type: pgsql # pgsql or mysqli
   name: moodle
-  user: moodleuser
-  pass: yourpassword
+  owner: moodleuser
+  password: yourpassword
 
-siteroot:
-  hostpath: siteroot #relative to vagrant folder
-  vmpath: /var/www/siteroot #full path
-  git:
-    url: git@github.com:moodle/moodle.git
-    branch: MOODLE_31_STABLE
+# Moodle configuration
+moodle:
+  sitename: moodle
+  adminuser: admin
+  adminpassword: password
 
-site:
-  name:
-    full: moodle
-    short: moodle
-  admin:
-    user: admin
-    pass: password
-    email: notanemail@notmail.com
-
-sitedata:
-  hostpath: sitedata #relative to vagrant folder
-  vmpath: /var/www/sitedata #full path
-
-virtualbox:
-  box: ubuntu/trusty64 #ubuntu/trusty64 or ubuntu/xenial64
-  memory: 4096 # in mb
+#Virtual box configuration
+virtualbox: 
+  memory: 1024 # in megabytes
   cores: 2
-  name: moodle-vagrant-box
+
+# Environment configuration
+environment:
+  base: "ubuntu/trusty64" # ubuntu/trusty64 or ubuntu/xenial64
+  name: moodle-box
+  phpversion: 5 # 5 or 7
