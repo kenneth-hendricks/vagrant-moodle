@@ -18,6 +18,11 @@ virtualbox:
 
 # Environment configuration
 environment:
-  base: "ubuntu/trusty64" # ubuntu/trusty64 or ubuntu/xenial64
+  base: ubuntu/trusty64 # ubuntu/trusty64 or ubuntu/xenial64
   name: moodle-box
   phpversion: 5 # 5 or 7
+
+# Siteroot configuration. These folders will be shared.
+siteroot:
+  hostpath: ./siteroot
+  vmpath: /var/www/siteroot

@@ -106,6 +106,27 @@ def validate_environment_config(environmentConf)
     return true
 end
 
+def path_exists?(path)
+    path = Pathname.new(path)
+    if path.exist?
+        return true
+    end
+    puts "Path #{path} does not exist"
+    return false
+end
+
+def validate_siteroot_config(siterootConf)
+    hostpath = siterootConf['hostpath']
+    unless path_exists?(hostpath)
+        return false
+    end
+
+    vmpath = siterootConf['vmpath']
+    #no validation as of yet
+
+    return true
+end
+
 def validate_config(config)
     unless validate_database_config(config['database'])
         puts 'Database config validation failed. Exiting.'
@@ -124,6 +145,11 @@ def validate_config(config)
 
     unless validate_environment_config(config['environment'])
         puts 'Environment config validation failed. Exiting.'
+        exit
+    end
+
+     unless validate_siteroot_config(config['siteroot'])
+        puts 'Siteroot config validation failed. Exiting.'
         exit
     end
 end

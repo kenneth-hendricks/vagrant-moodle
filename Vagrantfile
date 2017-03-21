@@ -27,10 +27,12 @@ Vagrant.configure(VAGRANTFILE_VERSION) do |config|
     vb.cpus = yaml_config['virtualbox']['cores']
   end
 
+  config.vm.synced_folder yaml_config['siteroot']['hostpath'],
+                          yaml_config['siteroot']['vmpath']
+
 
 
   #config.vm.post_up_message = "You have made it!"
-  #config.ssh.insert_key = false
   #config.vm.provider
   #config.vm.provision
   #config.vm.synced_folder
