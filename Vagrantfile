@@ -30,7 +30,10 @@ Vagrant.configure(VAGRANTFILE_VERSION) do |config|
   config.vm.synced_folder yaml_config['siteroot']['hostpath'],
                           yaml_config['siteroot']['vmpath']
 
-
+  config.vm.provision "ansible" do |ansible|
+    ansible.verbose = "v"
+    ansible.playbook = "playbook.yml"
+  end
 
   #config.vm.post_up_message = "You have made it!"
   #config.vm.provider
