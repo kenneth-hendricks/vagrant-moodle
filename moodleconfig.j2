@@ -1,0 +1,26 @@
+<?php  // Moodle configuration file
+
+unset($CFG);
+global $CFG;
+$CFG = new stdClass();
+
+$CFG->dbtype    = {{ config.database.type }};
+$CFG->dblibrary = 'native';
+$CFG->dbhost    = 'localhost';
+$CFG->dbname    = {{ config.database.name }};
+$CFG->dbuser    = {{ config.database.owner }};
+$CFG->dbpass    = {{ config.database.password }};
+$CFG->prefix    = 'mdl_';
+$CFG->dboptions = array (
+  'dbpersist' => 0,
+  'dbport' => '',
+  'dbsocket' => '',
+);
+
+$CFG->wwwroot   = 'http://{{ansible_all_ipv4_addresses[1]}}';
+$CFG->dataroot  = '/var/www/sitedata';
+$CFG->admin     = 'admin';
+
+$CFG->directorypermissions = 0777;
+
+require_once(dirname(__FILE__) . '/lib/setup.php');

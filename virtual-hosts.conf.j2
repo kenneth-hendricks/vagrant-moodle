@@ -1,0 +1,11 @@
+<VirtualHost *:80>
+  ServerAdmin webmaster@localhost
+  DocumentRoot {{ config.siteroot.vmpath }}
+
+  <Directory {{ config.siteroot.vmpath }}>
+    Require all granted
+  </Directory>
+
+  ErrorLog ${APACHE_LOG_DIR}/error.log
+  CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
