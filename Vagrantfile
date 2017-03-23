@@ -6,10 +6,14 @@ require_relative 'yaml_config_validator'
 # Vagrantfile API version.
 VAGRANTFILE_VERSION = "2"
 
-yaml_config = YAML.load_file 'config.yml'
-
-
-validate_config(yaml_config)
+configpath = 'config.yml'
+if File.exist?(configpath)
+  yaml_config = YAML.load_file configpath
+  validate_config(yaml_config)
+else
+  puts "#{configpath} does not exist"
+  exit
+end
 
 #puts config
 
