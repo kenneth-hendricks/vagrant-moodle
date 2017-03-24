@@ -80,24 +80,24 @@ def validate_virtualbox_config(virtualboxConf)
     return true
 end
 
-def validate_environment_config(environmentConf)
-    base = environmentConf['base']
+def validate_boxenvironment_config(boxenvironmentConf)
+    base = boxenvironmentConf['base']
     allowedbases = ['ubuntu/trusty64', 'ubuntu/xenial64']
     unless array_contains?(allowedbases, base)
         return false
     end
 
-    name = environmentConf['name']
+    name = boxenvironmentConf['name']
     unless is_string?(name)
         return false
     end
 
-    name = environmentConf['name']
+    name = boxenvironmentConf['name']
     unless is_string?(name)
         return false
     end
 
-    phpversion = environmentConf['phpversion']
+    phpversion = boxenvironmentConf['phpversion']
     allowedphps = [5, 7]
     unless array_contains?(allowedphps, phpversion)
         return false
@@ -143,7 +143,7 @@ def validate_config(config)
         exit
     end
 
-    unless validate_environment_config(config['environment'])
+    unless validate_boxenvironment_config(config['boxenvironment'])
         puts 'Environment config validation failed. Exiting.'
         exit
     end

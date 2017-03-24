@@ -4,12 +4,12 @@ unset($CFG);
 global $CFG;
 $CFG = new stdClass();
 
-$CFG->dbtype    = {{ config.database.type }};
+$CFG->dbtype    = '{{ database.type }}';
 $CFG->dblibrary = 'native';
 $CFG->dbhost    = 'localhost';
-$CFG->dbname    = {{ config.database.name }};
-$CFG->dbuser    = {{ config.database.owner }};
-$CFG->dbpass    = {{ config.database.password }};
+$CFG->dbname    = '{{ database.name }}';
+$CFG->dbuser    = '{{ database.owner }}';
+$CFG->dbpass    = '{{ database.password }}';
 $CFG->prefix    = 'mdl_';
 $CFG->dboptions = array (
   'dbpersist' => 0,
@@ -17,7 +17,7 @@ $CFG->dboptions = array (
   'dbsocket' => '',
 );
 
-$CFG->wwwroot   = 'http://{{ansible_all_ipv4_addresses[1]}}';
+$CFG->wwwroot   = 'http://{{ansible_all_ipv4_addresses[0]}}';
 $CFG->dataroot  = '/var/www/sitedata';
 $CFG->admin     = 'admin';
 

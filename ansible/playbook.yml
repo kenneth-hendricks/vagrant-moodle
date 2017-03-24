@@ -1,0 +1,37 @@
+---
+- hosts: all
+  become: yes
+  become_method: sudo
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+  handlers: 
+    - name: reload apache
+      service: name=apache2 state=reloaded
+  tasks:
+    - when: webserver.type == 'apache'
+      name: Install apache
+      include: tasks/webserver/apache.yml
+    - when: webserver.type == 'nginx'
+      name: Install nginx
+      include: tasks/webserver/nginx.yml
+    - when: database.type == 'pgsql'
+      name: Install postgres
+      include: tasks/database/pgsql.yml
+    - when: database.type == 'mysqli'
+      name: Install mysql
+      include: tasks/database/mysqli.yml
+    - when: boxenvironment.base == 'ubuntu/trusty64'
+      name: Install php 5 libs
+      include: tasks/php/five.yml
+    - when: boxenvironment.base == 'ubuntu/xenial64'
+      name: Install php 7 libs
+      include: tasks/php/seven.yml
+    - name: Install moodle
+      include: tasks/moodle/moodle.yml
+
+      
+
+
+
+
+

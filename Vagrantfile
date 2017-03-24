@@ -15,18 +15,16 @@ else
   exit
 end
 
-#puts config
-
 Vagrant.configure(VAGRANTFILE_VERSION) do |config|
 
-  config.vm.box = yaml_config['environment']['base']
-  config.vm.define yaml_config['environment']['name']
-  config.vm.hostname = yaml_config['environment']['name']
+  config.vm.box = yaml_config['boxenvironment']['base']
+  config.vm.define yaml_config['boxenvironment']['name']
+  config.vm.hostname = yaml_config['boxenvironment']['name']
 
   config.vm.network "private_network", type: "dhcp"
 
   config.vm.provider "virtualbox" do |vb|
-    vb.name = yaml_config['environment']['name']
+    vb.name = yaml_config['boxenvironment']['name']
     vb.memory = yaml_config['virtualbox']['memory']
     vb.cpus = yaml_config['virtualbox']['cores']
   end
@@ -36,7 +34,8 @@ Vagrant.configure(VAGRANTFILE_VERSION) do |config|
 
   config.vm.provision "ansible" do |ansible|
     ansible.verbose = "v"
-    ansible.playbook = "playbook.yml"
+    ansible.playbook = "ansible/playbook.yml"
+    ansible.extra_vars = configpath
   end
 
   #config.vm.post_up_message = "You have made it!"
