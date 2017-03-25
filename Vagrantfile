@@ -1,8 +1,6 @@
 require 'yaml'
 require_relative 'yaml_config_validator'
 
-
-
 # Vagrantfile API version.
 VAGRANTFILE_VERSION = "2"
 
@@ -31,6 +29,16 @@ Vagrant.configure(VAGRANTFILE_VERSION) do |config|
 
   config.vm.synced_folder yaml_config['siteroot']['hostpath'],
                           yaml_config['siteroot']['vmpath']
+
+  remoteip = ''
+  config.trigger.after :up, :stdout => false, :stderr => false do
+    get_ip_address = %Q(vagrant ssh #{@machine.name} -c 'ifconfig | grep -oP "inet addr:\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}" | grep -oP "\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}" | tail -n 2 | head -n 1')
+    remoteip = `#{get_ip_address}`
+
+    open('ansible/remoteip.yml', 'w') { |f|
+      f.puts "remoteip: #{remoteip}"
+    }
+  end  
 
   config.vm.provision "ansible" do |ansible|
     ansible.verbose = "v"

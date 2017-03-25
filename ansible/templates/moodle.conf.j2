@@ -17,7 +17,7 @@ $CFG->dboptions = array (
   'dbsocket' => '',
 );
 
-$CFG->wwwroot   = 'http://{{ansible_all_ipv4_addresses[0]}}';
+$CFG->wwwroot   = 'http://{{remoteip}}';
 $CFG->dataroot  = '/var/www/sitedata';
 $CFG->admin     = 'admin';
 

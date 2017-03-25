@@ -22,7 +22,6 @@ boxenvironment:
   name: moodle-box
   phpversion: 5 # 5 or 7
 
-# Siteroot configuration. These folders will be shared.
-siteroot:
-  hostpath: ./siteroot
-  vmpath: /var/www/siteroot
+# Webserver configuration. These folders will be shared.
+webserver:
+  type: apache # apache or nginx

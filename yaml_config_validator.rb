@@ -106,6 +106,15 @@ def validate_boxenvironment_config(boxenvironmentConf)
     return true
 end
 
+def validate_webserver_config(webserverConf)
+    type = webserverConf['type']
+    allowedtypes = ['apache', 'nginx']
+    unless array_contains?(allowedtypes, type)
+        return false
+    end
+    return true
+end
+
 def path_exists?(path)
     path = Pathname.new(path)
     if path.exist?
@@ -150,6 +159,11 @@ def validate_config(config)
 
      unless validate_siteroot_config(config['siteroot'])
         puts 'Siteroot config validation failed. Exiting.'
+        exit
+    end
+
+    unless validate_webserver_config(config['webserver'])
+        puts 'Webserver config validation failed. Exiting.'
         exit
     end
 end

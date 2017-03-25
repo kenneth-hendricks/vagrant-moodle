@@ -1,0 +1,11 @@
+- name: Create sitedata
+  file: 
+    path: /var/www/sitedata
+    state: directory 
+    owner: www-data 
+    group: www-data 
+    mode: 0777
+- name: template moodle config
+  template:
+    src: ../templates/moodle.conf.j2
+    dest: "{{siteroot.vmpath}}/config.php"

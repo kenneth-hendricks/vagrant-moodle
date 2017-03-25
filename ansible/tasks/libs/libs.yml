@@ -1,0 +1,19 @@
+- when: boxenvironment.base == 'ubuntu/trusty64'
+  name: install php5 libs
+  apt: name={{item}} state=present
+  with_items:
+    - php5-curl
+    - php5-gd
+    - php5-xmlrpc
+    - php5-intl
+  notify: reload apache
+- when: boxenvironment.base == 'ubuntu/xenial64'
+  name: install php7 libs
+  apt: name={{item}} state=present
+  with_items:
+    - php7.0-curl
+    - php7.0-gd
+    - php7.0-xml
+    - php7.0-xmlrpc
+    - php7.0-intl
+  notify: reload apache
