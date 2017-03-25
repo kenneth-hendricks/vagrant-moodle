@@ -9,3 +9,5 @@
   template:
     src: ../templates/moodle.conf.j2
     dest: "{{siteroot.vmpath}}/config.php"
+- name: Install moodle db
+  command: php {{siteroot.vmpath}}/admin/cli/install_database.php --agree-license  --adminuser={{moodle.adminuser}} --adminpass={{moodle.adminpassword}} --adminemail={{moodle.adminemail}}
