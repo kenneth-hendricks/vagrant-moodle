@@ -12,7 +12,6 @@
   name: install py3 psycopg2
   apt: name=python3-psycopg2 state=present
   notify: reload apache
-
 - when: boxenvironment.base == 'ubuntu/xenial64'
   name: install php7.0-pgsql
   apt: name=php7.0-pgsql state=present
@@ -27,11 +26,11 @@
     - libpq-dev
 - name: ensure database is created
   become_user: postgres
-  postgresql_db: 
+  postgresql_db:
     name: "{{database.name}}"
 - name: ensure user has db access
   become_user: postgres
-  postgresql_user: 
+  postgresql_user:
     db: "{{database.name}}"
     name: "{{database.owner}}"
     password: "{{database.password}}"

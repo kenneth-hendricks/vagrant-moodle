@@ -2,15 +2,16 @@
 - hosts: all
   become: yes
   become_method: sudo
+  gather_facts: no
   vars:
     ansible_python_interpreter: /usr/bin/python3
-  handlers: 
+  handlers:
     - name: reload apache
       service: name=apache2 state=reloaded
   tasks:
     - name: Include remote ip
       include_vars:
-        file: remoteip.yml
+        file: ./remoteip.yml
     - name: ensure apt cache is up to date
       apt: update_cache=yes
     - when: webserver.type == 'apache'
@@ -29,8 +30,6 @@
       include: tasks/libs/libs.yml
     - name: Install moodle
       include: tasks/moodle/moodle.yml
-
-      
 
 
 

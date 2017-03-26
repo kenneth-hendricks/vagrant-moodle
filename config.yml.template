@@ -1,4 +1,4 @@
-# Database configuration 
+# Database configuration
 database:
   type: pgsql # pgsql or mysqli
   name: moodle
@@ -10,9 +10,11 @@ moodle:
   sitename: moodle
   adminuser: admin
   adminpassword: password
+  adminemail: admin@mail.com
+
 
 #Virtual box configuration
-virtualbox: 
+virtualbox:
   memory: 1024 # in megabytes
   cores: 2
 
@@ -21,6 +23,11 @@ boxenvironment:
   base: ubuntu/xenial64 # ubuntu/trusty64 or ubuntu/xenial64
   name: moodle-box
   phpversion: 5 # 5 or 7
+
+#siteroot configuration
+siteroot:
+  hostpath: ./siteroot
+  vmpath: /var/www/siteroot
 
 # Webserver configuration. These folders will be shared.
 webserver:

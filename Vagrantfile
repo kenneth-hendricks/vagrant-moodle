@@ -19,7 +19,7 @@ Vagrant.configure(VAGRANTFILE_VERSION) do |config|
   config.vm.define yaml_config['boxenvironment']['name']
   config.vm.hostname = yaml_config['boxenvironment']['name']
 
-  config.vm.network "private_network", type: "dhcp"
+  config.vm.network :public_network, :bridge => 'enp0s25'
 
   config.vm.provider "virtualbox" do |vb|
     vb.name = yaml_config['boxenvironment']['name']
@@ -38,7 +38,7 @@ Vagrant.configure(VAGRANTFILE_VERSION) do |config|
     open('ansible/remoteip.yml', 'w') { |f|
       f.puts "remoteip: #{remoteip}"
     }
-  end  
+  end
 
   config.vm.provision "ansible" do |ansible|
     ansible.verbose = "v"
@@ -56,5 +56,5 @@ Vagrant.configure(VAGRANTFILE_VERSION) do |config|
   #   ansible.verbose = "v"
   #   ansible.playbook = "playbook.yml"
   # end
-  
+
 end
