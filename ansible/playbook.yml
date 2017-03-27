@@ -32,6 +32,8 @@
       include: tasks/libs/libs.yml
     - name: Install moodle
       include: tasks/moodle/moodle.yml
+    - name: Install composer
+      include: tasks/devtools/composer.yml
 
 
 

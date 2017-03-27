@@ -1,9 +1,9 @@
 - name: Create sitedata
-  file: 
+  file:
     path: /var/www/sitedata
-    state: directory 
-    owner: www-data 
-    group: www-data 
+    state: directory
+    owner: www-data
+    group: www-data
     mode: 0777
 - name: template moodle config
   template:
@@ -11,3 +11,4 @@
     dest: "{{siteroot.vmpath}}/config.php"
 - name: Install moodle db
   command: php {{siteroot.vmpath}}/admin/cli/install_database.php --agree-license  --adminuser={{moodle.adminuser}} --adminpass={{moodle.adminpassword}} --adminemail={{moodle.adminemail}}
+  ignore_errors: yes
