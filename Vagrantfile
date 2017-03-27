@@ -46,7 +46,6 @@ Vagrant.configure(VAGRANTFILE_VERSION) do |config|
     ansible.extra_vars = configpath
   end
 
-  #config.vm.post_up_message = "You have made it!"
   #config.vm.provider
   #config.vm.provision
   #config.vm.synced_folder

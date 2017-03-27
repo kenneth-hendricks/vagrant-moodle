@@ -6,9 +6,6 @@
     - php5-gd
     - php5-xmlrpc
     - php5-intl
-    - php5-mbstring
-    - php5-soap
-    - php5-zip
   notify: reload apache
 - when: boxenvironment.base == 'ubuntu/xenial64'
   name: install php7 libs
