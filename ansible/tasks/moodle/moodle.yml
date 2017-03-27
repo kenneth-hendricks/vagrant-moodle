@@ -5,6 +5,13 @@
     owner: www-data
     group: www-data
     mode: 0777
+- name: Create phpunit sitedata
+  file:
+    path: /var/www/phpu_sitedata
+    state: directory
+    owner: www-data
+    group: www-data
+    mode: 0777
 - name: template moodle config
   template:
     src: ../templates/moodle.conf.j2

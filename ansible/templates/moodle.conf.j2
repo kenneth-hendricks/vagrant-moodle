@@ -24,3 +24,6 @@ $CFG->admin     = 'admin';
 $CFG->directorypermissions = 0777;
 
 require_once(dirname(__FILE__) . '/lib/setup.php');
+
+$CFG->phpunit_prefix = 'phpu_';
+$CFG->phpunit_dataroot = '/var/www/phpu_sitedata';
