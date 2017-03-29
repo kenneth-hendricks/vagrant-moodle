@@ -27,8 +27,10 @@ Vagrant.configure(VAGRANTFILE_VERSION) do |config|
     vb.cpus = yaml_config['virtualbox']['cores']
   end
 
-  config.vm.synced_folder yaml_config['siteroot']['hostpath'],
-                          yaml_config['siteroot']['vmpath']
+  config.vm.synced_folder yaml_config['siteroot']['hostpath'], yaml_config['siteroot']['vmpath']
+
+  config.vm.synced_folder yaml_config['sitedata']['hostpath'], yaml_config['sitedata']['vmpath'],
+                          mount_options: ['dmode=777,fmode=777']
 
   remoteip = ''
   config.trigger.after :up, :stdout => false, :stderr => false do

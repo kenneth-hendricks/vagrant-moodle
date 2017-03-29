@@ -193,6 +193,22 @@ class SiterootValidator < BaseValidator
     end
 end
 
+class SitedataValidator < BaseValidator
+    def validate()
+        unless check_config_has_keys(['hostpath', 'vmpath'])
+          return false
+        end
+        hostpath = @config['hostpath']
+        unless path_exists?(hostpath)
+            return false
+        end
+
+        vmpath = @config['vmpath']
+        #no validation as of yet
+
+        return true
+    end
+end
 
 def validate_config(config)
     validators = []
@@ -202,6 +218,7 @@ def validate_config(config)
     validators.push(BoxEnvironmentValidator.new(config['boxenvironment']))
     validators.push(WebserverValidator.new(config['webserver']))
     validators.push(SiterootValidator.new(config['siteroot']))
+    validators.push(SiterootValidator.new(config['sitedata']))
 
     validators.each { |v|
         unless v.validate
