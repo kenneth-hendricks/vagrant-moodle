@@ -17,8 +17,8 @@ $CFG->dboptions = array (
   'dbsocket' => '',
 );
 
-$CFG->wwwroot   = 'http://{{remoteip}}';
-$CFG->dataroot  = '/var/www/sitedata';
+$CFG->wwwroot   = 'http://{{ remoteip }}';
+$CFG->dataroot  = '{{ sitedata.vmpath }}';
 $CFG->admin     = 'admin';
 
 $CFG->directorypermissions = 0777;

@@ -32,7 +32,7 @@ siteroot:
 #siteroot configuration
 sitedata:
   hostpath: ./sitedata
-  vmpath: /var/www/sitedata
+  vmpath: /var/lib/sitedata
 
 # Webserver configuration. These folders will be shared.
 webserver:
