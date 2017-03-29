@@ -1,9 +1,25 @@
 class BaseValidator
-    
+
     def initialize(config)
         @config = config
     end
-    
+
+    def check_config_has_keys(keys)
+      unless @config
+        puts "config variable does not exist"
+        return false
+      end
+
+      keys.each { |key|
+          unless @config.has_key?(key)
+            puts "key: #{key} does not exist in config"
+            return false
+          end
+      }
+
+      return true
+    end
+
     def is_string?(var)
         if var.respond_to?(:to_str)
             return true;
@@ -40,6 +56,10 @@ end
 
 class DatabaseValidator < BaseValidator
     def validate()
+        unless check_config_has_keys(['type', 'name', 'owner', 'password'])
+          return false
+        end
+
         type = @config['type']
         allowedtypes = ['pgsql', 'mysql']
         unless array_contains_var?(allowedtypes, type)
@@ -67,6 +87,10 @@ end
 
 class MoodleValidator < BaseValidator
     def validate()
+        unless check_config_has_keys(['sitename', 'adminuser', 'adminpassword'])
+          return false
+        end
+
         sitename = @config['sitename']
         unless is_string?(sitename)
             return false
@@ -88,6 +112,9 @@ end
 
 class VirtualboxValidator < BaseValidator
     def validate()
+        unless check_config_has_keys(['memory', 'cores'])
+          return false
+        end
         memory = @config['memory']
         unless is_int?(memory)
             return false
@@ -104,6 +131,10 @@ end
 
 class BoxEnvironmentValidator < BaseValidator
     def validate()
+        unless check_config_has_keys(['base', 'name', 'phpversion'])
+          return false
+        end
+
         base = @config['base']
         allowedbases = ['ubuntu/trusty64', 'ubuntu/xenial64']
         unless array_contains_var?(allowedbases, base)
@@ -132,7 +163,10 @@ end
 
 class WebserverValidator < BaseValidator
     def validate()
-        
+        unless check_config_has_keys(['type'])
+          return false
+        end
+
         type = @config['type']
         allowedtypes = ['apache', 'nginx']
         unless array_contains_var?(allowedtypes, type)
@@ -144,6 +178,9 @@ end
 
 class SiterootValidator < BaseValidator
     def validate()
+        unless check_config_has_keys(['hostpath', 'vmpath'])
+          return false
+        end
         hostpath = @config['hostpath']
         unless path_exists?(hostpath)
             return false
@@ -166,7 +203,7 @@ def validate_config(config)
     validators.push(WebserverValidator.new(config['webserver']))
     validators.push(SiterootValidator.new(config['siteroot']))
 
-    validators.each { |v| 
+    validators.each { |v|
         unless v.validate
             puts "#{v.class.name} return false. Exiting"
             exit
@@ -174,4 +211,3 @@ def validate_config(config)
     }
 
 end
-
