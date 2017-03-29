@@ -6,10 +6,8 @@
   pre_tasks:
     - include_vars:
         ansible_python_interpreter: /usr/bin/python3
+        task_includes_static: yes
       when: boxenvironment.base == 'ubuntu/xenial64'
-  handlers:
-    - name: reload apache
-      service: name=apache2 state=reloaded
   tasks:
     - name: Include remote ip
       include_vars:
@@ -34,6 +32,10 @@
       include: tasks/moodle/moodle.yml
     - name: Install composer
       include: tasks/devtools/composer.yml
+  handlers:
+    - name: reload apache
+      service: name=apache2 state=reloaded
+
 
 
 
