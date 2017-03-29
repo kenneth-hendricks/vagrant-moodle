@@ -1,7 +1,13 @@
+- name: install common libs
+  apt: name={{item}} state=present
+  with_items:
+    - memcached
+  notify: reload apache
 - when: boxenvironment.base == 'ubuntu/trusty64'
   name: install php5 libs
   apt: name={{item}} state=present
   with_items:
+    - php5-memcached
     - php5-curl
     - php5-gd
     - php5-xmlrpc
@@ -19,4 +25,5 @@
     - php7.0-mbstring
     - php7.0-soap
     - php7.0-zip
+    - php7.0-memcached
   notify: reload apache
