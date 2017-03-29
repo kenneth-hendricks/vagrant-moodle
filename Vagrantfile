@@ -14,33 +14,33 @@ else
 end
 
 Vagrant.configure(VAGRANTFILE_VERSION) do |config|
+    config.vm.box = yaml_config['boxenvironment']['base']
+    config.vm.define yaml_config['boxenvironment']['name']
+    config.vm.hostname = yaml_config['boxenvironment']['name']
 
-  config.vm.box = yaml_config['boxenvironment']['base']
-  config.vm.define yaml_config['boxenvironment']['name']
-  config.vm.hostname = yaml_config['boxenvironment']['name']
+    config.vm.network :public_network, :bridge => 'enp0s25'
 
-  config.vm.network :public_network, :bridge => 'enp0s25'
+    config.vm.provider "virtualbox" do |vb|
+      vb.name = yaml_config['boxenvironment']['name']
+      vb.memory = yaml_config['virtualbox']['memory']
+      vb.cpus = yaml_config['virtualbox']['cores']
+    end
 
-  config.vm.provider "virtualbox" do |vb|
-    vb.name = yaml_config['boxenvironment']['name']
-    vb.memory = yaml_config['virtualbox']['memory']
-    vb.cpus = yaml_config['virtualbox']['cores']
-  end
+    config.vm.synced_folder yaml_config['siteroot']['hostpath'], yaml_config['siteroot']['vmpath']
 
-  config.vm.synced_folder yaml_config['siteroot']['hostpath'], yaml_config['siteroot']['vmpath']
+    config.vm.synced_folder yaml_config['sitedata']['hostpath'], yaml_config['sitedata']['vmpath'],
+                            mount_options: ['dmode=777,fmode=777']
 
-  config.vm.synced_folder yaml_config['sitedata']['hostpath'], yaml_config['sitedata']['vmpath'],
-                          mount_options: ['dmode=777,fmode=777']
 
-  remoteip = ''
-  config.trigger.after :up, :stdout => false, :stderr => false do
-    get_ip_address = %Q(vagrant ssh #{@machine.name} -c 'ifconfig | grep -oP "inet addr:\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}" | grep -oP "\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}" | tail -n 2 | head -n 1')
-    remoteip = `#{get_ip_address}`
-
-    open('ansible/remoteip.yml', 'w') { |f|
-      f.puts "remoteip: #{remoteip}"
-    }
-  end
+    config.vm.provision "trigger", :option => "value" do |trigger|
+        trigger.fire do
+            get_ip_address = %Q(vagrant ssh #{@machine.name} -c 'ifconfig | grep -oP "inet addr:\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}" | grep -oP "\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}" | tail -n 2 | head -n 1')
+            remoteip = `#{get_ip_address}`
+            open('ansible/remoteip.yml', 'w') { |f|
+              f.puts "remoteip: #{remoteip}"
+            }
+        end
+    end
 
   config.vm.provision "ansible" do |ansible|
     ansible.verbose = "v"
