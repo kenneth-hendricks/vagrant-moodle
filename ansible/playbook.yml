@@ -30,8 +30,13 @@
       include: tasks/libs/libs.yml
     - name: Install moodle
       include: tasks/moodle/moodle.yml
-    - name: Install composer
-      include: tasks/devtools/composer.yml
+    - name: Copy utils folder over
+      copy:
+        src: "../utils"
+        dest: "/home/vagrant"
+        mode: 0777
+        owner: vagrant
+        group: vagrant
   handlers:
     - name: reload apache
       service: name=apache2 state=reloaded
