@@ -29,7 +29,7 @@ siteroot:
   hostpath: ./siteroot
   vmpath: /var/www/siteroot
 
-#siteroot configuration
+#sitedata configuration
 sitedata:
   hostpath: ./sitedata
   vmpath: /var/lib/sitedata
