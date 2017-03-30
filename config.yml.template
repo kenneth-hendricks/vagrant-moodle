@@ -15,7 +15,7 @@ moodle:
 
 #Virtual box configuration
 virtualbox:
-  memory: 1024 # in megabytes
+  memory: 4096 # in megabytes
   cores: 2
 
 # Environment configuration
