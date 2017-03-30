@@ -1,0 +1,6 @@
+- name: Install Webserver
+  include: webserver/main.yml
+- name: Install Libs
+  include: libs/main.yml
+- name: Install LMS
+  include: lms/main.yml

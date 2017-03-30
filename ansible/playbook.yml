@@ -4,31 +4,16 @@
   become_method: sudo
   gather_facts: no
   pre_tasks:
-    - include_vars:
+    - name: Set python3 as interpreter
+      include_vars:
         ansible_python_interpreter: /usr/bin/python3
       when: boxenvironment.base == 'ubuntu/xenial64'
-  tasks:
     - name: Include remote ip
       include_vars:
         file: ./remoteip.yml
     - name: ensure apt cache is up to date
       apt: update_cache=yes
-    - when: webserver.type == 'apache'
-      name: Install apache
-      include: tasks/webserver/apache.yml
-    - when: webserver.type == 'nginx'
-      name: Install nginx
-      include: tasks/webserver/nginx.yml
-    - when: database.type == 'pgsql'
-      name: Install postgres
-      include: tasks/database/pgsql.yml
-    - when: database.type == 'mysqli'
-      name: Install mysql
-      include: tasks/database/mysqli.yml
-    - name: Install php libs
-      include: tasks/libs/libs.yml
-    - name: Install moodle
-      include: tasks/moodle/moodle.yml
+  tasks:
     - name: Copy utils folder over
       copy:
         src: "../utils"
@@ -36,10 +21,9 @@
         mode: 0777
         owner: vagrant
         group: vagrant
-  handlers:
-    - name: reload apache
-      service: name=apache2 state=reloaded
-
+  roles:
+      - webserver
+      - database
 
 
 
