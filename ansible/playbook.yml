@@ -6,7 +6,6 @@
   pre_tasks:
     - include_vars:
         ansible_python_interpreter: /usr/bin/python3
-        task_includes_static: yes
       when: boxenvironment.base == 'ubuntu/xenial64'
   tasks:
     - name: Include remote ip

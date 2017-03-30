@@ -4,6 +4,15 @@ require_relative 'yaml_config_validator'
 # Vagrantfile API version.
 VAGRANTFILE_VERSION = "2"
 
+if !Vagrant.has_plugin?("vagrant-triggers")
+    puts "'vagrant-triggers' plugin is required"
+    puts "This can be installed by running:"
+    puts
+    puts " vagrant plugin install vagrant-triggers"
+    puts
+    exit
+end
+
 configpath = 'config.yml'
 if File.exist?(configpath)
   yaml_config = YAML.load_file configpath
