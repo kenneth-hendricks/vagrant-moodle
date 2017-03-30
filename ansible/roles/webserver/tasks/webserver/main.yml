@@ -1,0 +1,6 @@
+- when: webserver.type == 'apache'
+  name: Install apache
+  include: webserver/apache.yml
+- when: webserver.type == 'nginx'
+  name: Install nginx
+  include: webserver/nginx.yml

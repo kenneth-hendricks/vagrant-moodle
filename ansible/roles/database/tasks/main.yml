@@ -1,0 +1,6 @@
+- when: database.type == 'pgsql'
+  name: Install Postgres
+  include: pgsql.yml
+- when: database.type == 'mysqli'
+  name: Install Mysql
+  include: mysqli.yml
