@@ -38,8 +38,7 @@ Vagrant.configure(VAGRANTFILE_VERSION) do |config|
     config.vm.synced_folder yaml_config['siteroot']['hostpath'], yaml_config['siteroot']['vmpath']
 
     config.vm.synced_folder yaml_config['sitedata']['hostpath'], yaml_config['sitedata']['vmpath'],
-                            mount_options: ['dmode=777,fmode=777']
-
+                            mount_options: ['dmode=777,fmode=777,uid=33,gid=33']
 
     config.vm.provision "trigger", :option => "value" do |trigger|
         trigger.fire do
