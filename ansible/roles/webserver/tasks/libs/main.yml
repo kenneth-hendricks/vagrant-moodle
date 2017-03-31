@@ -2,7 +2,7 @@
   apt: name={{item}} state=present
   with_items:
     - memcached
-  notify: reload apache
+  notify: Reload Apache
 
 - when: boxenvironment.base == 'ubuntu/trusty64'
   name: install php5 libs
@@ -13,7 +13,8 @@
     - php5-gd
     - php5-xmlrpc
     - php5-intl
-  notify: reload apache
+    - php5-pgsql
+  notify: Reload Apache
 
 - when: boxenvironment.base == 'ubuntu/xenial64'
   name: install php7 libs
@@ -27,5 +28,6 @@
     - php7.0-mbstring
     - php7.0-soap
     - php7.0-zip
-    - php7.0-memcached
-  notify: reload apache
+    - php7.0-pgsql
+    - php7.0-mcrypt
+  notify: Reload Apache

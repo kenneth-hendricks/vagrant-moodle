@@ -4,9 +4,9 @@
   become_method: sudo
   gather_facts: no
   pre_tasks:
-    - name: Set python3 as interpreter
-      include_vars:
-        ansible_python_interpreter: /usr/bin/python3
+    - name: Set Python3 Interpreter
+      set_fact:
+        ansible_python_interpreter: '/usr/bin/python3'
       when: boxenvironment.base == 'ubuntu/xenial64'
     - name: Include remote ip
       include_vars:
@@ -17,13 +17,11 @@
     - name: Copy utils folder over
       copy:
         src: "../utils"
-        dest: "/home/vagrant"
+        dest: "/"
         mode: 0777
-        owner: vagrant
-        group: vagrant
   roles:
-      - webserver
       - database
+      - webserver
 
 
 
