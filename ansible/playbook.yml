@@ -13,15 +13,10 @@
         file: ./remoteip.yml
     - name: ensure apt cache is up to date
       apt: update_cache=yes
-  tasks:
-    - name: Copy utils folder over
-      copy:
-        src: "../utils"
-        dest: "/"
-        mode: 0777
   roles:
       - database
       - webserver
+      - devtoolbox
 
 
 
