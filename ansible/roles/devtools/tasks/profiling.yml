@@ -8,3 +8,6 @@
   args:
     creates: /etc/php5/cli/conf.d/20-xhprof.ini
   notify: Reload apache
+
+- name: Install graphviz
+  apt: name=graphviz state=present
