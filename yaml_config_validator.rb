@@ -118,11 +118,11 @@ end
 
 class DevtoolsValidator < BaseValidator
   def validate
-    return false unless check_config_has_keys(%w(utils moosh xdebug xhprof), @config)
+    return false unless check_config_has_keys(%w(utils moosh xdebug profiling), @config)
     return false unless is_bool?(@config['utils'])
     return false unless is_bool?(@config['moosh'])
     return false unless is_bool?(@config['xdebug'])
-    return false unless is_bool?(@config['xhprof'])
+    return false unless is_bool?(@config['profiling'])
     true
   end
 end

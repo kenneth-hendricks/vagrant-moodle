@@ -7,10 +7,8 @@
 - name: Install xdebug
   when: devtools.xdebug
   include: xdebug.yml
-
-
-
-
-
+- name: Install profiling
+  when: devtools.profiling
+  include: profiling.yml
 
 

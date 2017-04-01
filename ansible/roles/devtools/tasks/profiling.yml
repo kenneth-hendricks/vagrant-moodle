@@ -1,0 +1,10 @@
+- name: Install php5 xhprof
+  when: vagrantbox.basebox == 'ubuntu/trusty64'
+  apt: name=php5-xhprof state=present
+  notify: Reload apache
+- name: Enable php5 xhprof module
+  when: vagrantbox.basebox == 'ubuntu/trusty64'
+  shell: php5enmod xhprof
+  args:
+    creates: /etc/php5/cli/conf.d/20-xhprof.ini
+  notify: Reload apache
