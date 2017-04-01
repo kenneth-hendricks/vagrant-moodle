@@ -4,7 +4,7 @@
     - memcached
   notify: Reload Apache
 
-- when: boxenvironment.base == 'ubuntu/trusty64'
+- when: vagrantbox.basebox == 'ubuntu/trusty64'
   name: install php5 libs
   apt: name={{item}} state=present
   with_items:
@@ -16,7 +16,7 @@
     - php5-pgsql
   notify: Reload Apache
 
-- when: boxenvironment.base == 'ubuntu/xenial64'
+- when: vagrantbox.basebox == 'ubuntu/xenial64'
   name: install php7 libs
   apt: name={{item}} state=present
   with_items:

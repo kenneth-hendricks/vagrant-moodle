@@ -7,7 +7,7 @@
     - name: Set Python3 Interpreter
       set_fact:
         ansible_python_interpreter: '/usr/bin/python3'
-      when: boxenvironment.base == 'ubuntu/xenial64'
+      when: vagrantbox.basebox == 'ubuntu/xenial64'
     - name: Include remote ip
       include_vars:
         file: ./remoteip.yml
@@ -16,7 +16,7 @@
   roles:
       - database
       - webserver
-      - devtoolbox
+      - devtools
 
 
 

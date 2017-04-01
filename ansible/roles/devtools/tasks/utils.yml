@@ -1,0 +1,5 @@
+- name: Copy utils folder over
+  copy:
+    src: "utils"
+    dest: "/"
+    mode: 0777

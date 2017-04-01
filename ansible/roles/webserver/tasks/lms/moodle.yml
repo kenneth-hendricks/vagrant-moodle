@@ -1,7 +1,7 @@
 - name: template moodle config
   template:
     src: ../templates/moodle.conf.j2
-    dest: "{{siteroot.vmpath}}/config.php"
+    dest: "{{webserver.siteroot.vmpath}}/config.php"
 - name: Install moodle db
-  command: php {{siteroot.vmpath}}/admin/cli/install_database.php --agree-license  --adminuser={{moodle.adminuser}} --adminpass={{moodle.adminpassword}} --adminemail={{moodle.adminemail}}
+  command: php {{webserver.siteroot.vmpath}}/admin/cli/install_database.php --agree-license  --adminuser={{webserver.moodle.adminuser}} --adminpass={{webserver.moodle.adminpassword}} --adminemail={{webserver.moodle.adminemail}}
   ignore_errors: yes

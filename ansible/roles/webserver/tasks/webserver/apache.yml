@@ -23,11 +23,11 @@
     state: link
   notify: Reload Apache
 
-- when: boxenvironment.base == 'ubuntu/trusty64'
+- when: vagrantbox.basebox == 'ubuntu/trusty64'
   name: install apache php5 libs
   apt: name=libapache2-mod-php5 state=present
   notify: Reload Apache
-- when: boxenvironment.base == 'ubuntu/xenial64'
+- when: vagrantbox.basebox == 'ubuntu/xenial64'
   name: install apache php7 libs
   apt: name=libapache2-mod-php7.0 state=present
   notify: Reload Apache

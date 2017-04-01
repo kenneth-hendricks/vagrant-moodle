@@ -1,10 +1,10 @@
 #php5 dependancies
-- when: boxenvironment.base == 'ubuntu/trusty64'
+- when: vagrantbox.basebox == 'ubuntu/trusty64'
   name: install py2 psycopg2
   apt: name=python-psycopg2 state=present
 
 #php7 dependancies
-- when: boxenvironment.base == 'ubuntu/xenial64'
+- when: vagrantbox.basebox == 'ubuntu/xenial64'
   name: install py3 psycopg2
   apt: name=python3-psycopg2 state=present
 

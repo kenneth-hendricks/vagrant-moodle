@@ -18,15 +18,12 @@ $CFG->dboptions = array (
 );
 
 $CFG->wwwroot   = 'http://{{ remoteip }}';
-$CFG->dataroot  = '{{ sitedata.vmpath }}';
+$CFG->dataroot  = '{{ webserver.sitedata.vmpath }}';
 $CFG->admin     = 'admin';
 
 $CFG->directorypermissions = 0777;
 
 require_once(dirname(__FILE__) . '/lib/setup.php');
-
-$CFG->phpunit_prefix = 'phpu_';
-$CFG->phpunit_dataroot = '/var/www/phpu_sitedata';
 
 //Force a debugging mode regardless the settings in the site administration
 @error_reporting(E_ALL | E_STRICT); // NOT FOR PRODUCTION SERVERS!

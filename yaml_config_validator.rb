@@ -1,230 +1,143 @@
 class BaseValidator
+  def initialize(config)
+    @config = config
+  end
 
-    def initialize(config)
-        @config = config
+  def check_config_has_keys(keys, config)
+    unless config
+      puts 'config variable does not exist'
+      return false
     end
-
-    def check_config_has_keys(keys)
-      unless @config
-        puts "config variable does not exist"
+    keys.each do |key|
+      unless config.key?(key)
+        puts "key: #{key} does not exist in config"
         return false
       end
-
-      keys.each { |key|
-          unless @config.has_key?(key)
-            puts "key: #{key} does not exist in config"
-            return false
-          end
-      }
-
-      return true
     end
+    true
+  end
 
-    def is_string?(var)
-        if var.respond_to?(:to_str)
-            return true;
-        end
-        puts "#{var} does not respond to to_str"
-        return false
-    end
+  def is_string?(var)
+    return true if var.respond_to?(:to_str)
+    puts "#{var} does not respond to to_str"
+    false
+  end
 
-    def array_contains_var?(array, var)
-        if array.include?(var)
-            return true
-        end
-        puts "#{var} is not in #{array}"
-        return false
-    end
+  def array_contains_var?(array, var)
+    return true if array.include?(var)
+    puts "#{var} is not in #{array}"
+    false
+  end
 
-    def is_int?(var)
-        if var.respond_to?(:to_int)
-            return true;
-        end
-        puts "#{var} does not respond to to_int"
-        return false
-    end
+  def is_int?(var)
+    return true if var.respond_to?(:to_int)
+    puts "#{var} does not respond to to_int"
+    false
+  end
 
-    def path_exists?(path)
-        path = Pathname.new(path)
-        if path.exist?
-            return true
-        end
-        puts "Path #{path} does not exist"
-        return false
-    end
+    def is_bool?(var)
+    return true if [true, false].include? var
+    puts "#{var} does not evaluate to true or false"
+    false
+  end
+
+  def path_exists?(path)
+    path = Pathname.new(path)
+    return true if path.exist?
+    puts "Path #{path} does not exist"
+    false
+  end
+end
+
+class VagrantboxValidator < BaseValidator
+  def validate
+    return false unless check_config_has_keys(%w(name basebox memory cores), @config)
+    return false unless is_string?(@config['name'])
+    allowedbases = ['ubuntu/trusty64', 'ubuntu/xenial64']
+    return false unless array_contains_var?(allowedbases, @config['basebox'])
+    return false unless is_int?(@config['memory'])
+    return false unless is_int?(@config['cores'])
+    true
+  end
 end
 
 class DatabaseValidator < BaseValidator
-    def validate()
-        unless check_config_has_keys(['type', 'name', 'owner', 'password'])
-          return false
-        end
-
-        type = @config['type']
-        allowedtypes = ['pgsql', 'mysql']
-        unless array_contains_var?(allowedtypes, type)
-            return false
-        end
-
-        name = @config['name']
-        unless is_string?(name)
-            return false
-        end
-
-        owner = @config['owner']
-        unless is_string?(owner)
-            return false
-        end
-
-        password = @config['password']
-        unless is_string?(password)
-            return false
-        end
-
-        return true
-    end
+  def validate
+    return false unless check_config_has_keys(%w(type name owner password), @config)
+    allowedtypes = %w(pgsql mysql)
+    return false unless array_contains_var?(allowedtypes, @config['type'])
+    return false unless is_string?(@config['name'])
+    return false unless is_string?(@config['owner'])
+    return false unless is_string?(@config['password'])
+    true
+  end
 end
 
 class MoodleValidator < BaseValidator
-    def validate()
-        unless check_config_has_keys(['sitename', 'adminuser', 'adminpassword'])
-          return false
-        end
-
-        sitename = @config['sitename']
-        unless is_string?(sitename)
-            return false
-        end
-
-        adminuser = @config['adminuser']
-        unless is_string?(adminuser)
-            return false
-        end
-
-        adminpassword = @config['adminpassword']
-        unless is_string?(adminpassword)
-            return false
-        end
-
-        return true
+  def validate
+    unless check_config_has_keys(%w(sitename adminuser adminpassword))
+      return false
     end
-end
 
-class VirtualboxValidator < BaseValidator
-    def validate()
-        unless check_config_has_keys(['memory', 'cores'])
-          return false
-        end
-        memory = @config['memory']
-        unless is_int?(memory)
-            return false
-        end
+    sitename = @config['sitename']
+    return false unless is_string?(@config['sitename'])
 
-        cores = @config['cores']
-        unless is_int?(cores)
-            return false
-        end
+    adminuser = @config['adminuser']
+    return false unless is_string?(adminuser)
 
-        return true
-    end
-end
+    adminpassword = @config['adminpassword']
+    return false unless is_string?(adminpassword)
 
-class BoxEnvironmentValidator < BaseValidator
-    def validate()
-        unless check_config_has_keys(['base', 'name', 'phpversion'])
-          return false
-        end
-
-        base = @config['base']
-        allowedbases = ['ubuntu/trusty64', 'ubuntu/xenial64']
-        unless array_contains_var?(allowedbases, base)
-            return false
-        end
-
-        name = @config['name']
-        unless is_string?(name)
-            return false
-        end
-
-        name = @config['name']
-        unless is_string?(name)
-            return false
-        end
-
-        phpversion = @config['phpversion']
-        allowedphps = [5, 7]
-        unless array_contains_var?(allowedphps, phpversion)
-            return false
-        end
-
-        return true
-    end
+    true
+  end
 end
 
 class WebserverValidator < BaseValidator
-    def validate()
-        unless check_config_has_keys(['type'])
-          return false
-        end
+  def validate
+    return false unless check_config_has_keys(%w(type moodle siteroot sitedata logroot), @config)
+    moodleconf = @config['moodle']
+    return false unless check_config_has_keys(%w(sitename adminuser adminpassword adminemail), moodleconf)
+    siterootconf = @config['siteroot']
+    return false unless check_config_has_keys(%w(hostpath vmpath), siterootconf)
+    sitedataconf = @config['sitedata']
+    return false unless check_config_has_keys(%w(hostpath vmpath), sitedataconf)
 
-        type = @config['type']
-        allowedtypes = ['apache', 'nginx']
-        unless array_contains_var?(allowedtypes, type)
-            return false
-        end
-        return true
-    end
+    allowedtypes = %w(apache nginx)
+    return false unless array_contains_var?(allowedtypes, @config['type'])
+
+    return false unless is_string?(moodleconf['sitename'])
+    return false unless is_string?(moodleconf['adminuser'])
+    return false unless is_string?(moodleconf['adminpassword'])
+    return false unless is_string?(moodleconf['adminemail'])
+
+    return false unless path_exists?(siterootconf['hostpath'])
+    return false unless path_exists?(sitedataconf['hostpath'])
+    true
+  end
 end
 
-class SiterootValidator < BaseValidator
-    def validate()
-        unless check_config_has_keys(['hostpath', 'vmpath'])
-          return false
-        end
-        hostpath = @config['hostpath']
-        unless path_exists?(hostpath)
-            return false
-        end
-
-        vmpath = @config['vmpath']
-        #no validation as of yet
-
-        return true
-    end
-end
-
-class SitedataValidator < BaseValidator
-    def validate()
-        unless check_config_has_keys(['hostpath', 'vmpath'])
-          return false
-        end
-        hostpath = @config['hostpath']
-        unless path_exists?(hostpath)
-            return false
-        end
-
-        vmpath = @config['vmpath']
-        #no validation as of yet
-
-        return true
-    end
+class DevtoolsValidator < BaseValidator
+  def validate
+    return false unless check_config_has_keys(%w(utils moosh xdebug xhprof), @config)
+    return false unless is_bool?(@config['utils'])
+    return false unless is_bool?(@config['moosh'])
+    return false unless is_bool?(@config['xdebug'])
+    return false unless is_bool?(@config['xhprof'])
+    true
+  end
 end
 
 def validate_config(config)
-    validators = []
-    validators.push(DatabaseValidator.new(config['database']))
-    validators.push(MoodleValidator.new(config['moodle']))
-    validators.push(VirtualboxValidator.new(config['virtualbox']))
-    validators.push(BoxEnvironmentValidator.new(config['boxenvironment']))
-    validators.push(WebserverValidator.new(config['webserver']))
-    validators.push(SiterootValidator.new(config['siteroot']))
-    validators.push(SiterootValidator.new(config['sitedata']))
-
-    validators.each { |v|
-        unless v.validate
-            puts "#{v.class.name} return false. Exiting"
-            exit
-        end
-    }
-
+  validators = []
+  validators.push(VagrantboxValidator.new(config['vagrantbox']))
+  validators.push(WebserverValidator.new(config['webserver']))
+  validators.push(DatabaseValidator.new(config['database']))
+  validators.push(DevtoolsValidator.new(config['devtools']))
+  
+  validators.each do |v|
+    unless v.validate
+      puts "#{v.class.name} return false. Exiting"
+      exit
+    end
+  end
 end

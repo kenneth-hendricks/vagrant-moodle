@@ -1,39 +1,27 @@
+vagrantbox:
+  name: moodle-box
+  basebox: ubuntu/trusty64 # ubuntu/trusty64 or ubuntu/xenial64
+  memory: 4096 # in megabytes
+  cores: 2
+
+webserver:
+  type: apache # apache or nginx  
+  moodle:
+    sitename: moodle
+    adminuser: admin
+    adminpassword: password
+    adminemail: admin@mail.com
+  siteroot:
+    hostpath: ./siteroot
+    vmpath: /var/www/siteroot
+  sitedata:
+    hostpath: ./sitedata
+    vmpath: /var/lib/sitedata
+  logroot: /var/log/sitelogs
+
 # Database configuration
 database:
   type: pgsql # pgsql or mysqli
   name: moodle
   owner: moodleuser
   password: yourpassword
-
-# Moodle configuration
-moodle:
-  sitename: moodle
-  adminuser: admin
-  adminpassword: password
-  adminemail: admin@mail.com
-
-
-#Virtual box configuration
-virtualbox:
-  memory: 4096 # in megabytes
-  cores: 2
-
-# Environment configuration
-boxenvironment:
-  base: ubuntu/trusty64 # ubuntu/trusty64 or ubuntu/xenial64
-  name: moodle-box
-  phpversion: 5 # 5 or 7
-
-#siteroot configuration
-siteroot:
-  hostpath: ./siteroot
-  vmpath: /var/www/siteroot
-
-#sitedata configuration
-sitedata:
-  hostpath: ./sitedata
-  vmpath: /var/lib/sitedata
-
-# Webserver configuration. These folders will be shared.
-webserver:
-  type: apache # apache or nginx

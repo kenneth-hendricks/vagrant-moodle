@@ -1,11 +1,11 @@
 <VirtualHost *:80>
   ServerAdmin webmaster@localhost
-  DocumentRoot {{ siteroot.vmpath }}
+  DocumentRoot {{ webserver.siteroot.vmpath }}
 
-  <Directory {{ siteroot.vmpath }}>
+  <Directory {{ webserver.siteroot.vmpath }}>
     Require all granted
   </Directory>
 
-  ErrorLog /var/log/sitelogs/error.log
-  CustomLog /var/log/sitelogs/access.log combined
+  ErrorLog {{ webserver.logroot }}/error.log
+  CustomLog {{ webserver.logroot }}/access.log combined
 </VirtualHost>
