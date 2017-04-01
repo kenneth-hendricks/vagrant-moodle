@@ -4,6 +4,9 @@
 - when: devtools.moosh
   name: Install Moosh
   include: moosh.yml
+- when: devtools.xdebug
+  name: Install Xdebug
+  include: xdebug.yml
 
 
 
