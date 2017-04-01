@@ -13,12 +13,8 @@
     - name: Include remote ip
       include_vars:
         file: ./remoteip.yml
-    - name: Check last apt-cache update
-      stat: path=/var/cache/apt
-      register: apt_cache_stat
     - name: Update apt-cache
-      apt: update_cache=yes
-      when: ansible_date_time.epoch|float - apt_cache_stat.stat.mtime > 60*60*12
+      apt: update_cache=yes cache_valid_time=3600
   roles:
       - database
       - webserver
