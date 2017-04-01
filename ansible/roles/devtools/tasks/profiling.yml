@@ -9,5 +9,27 @@
     creates: /etc/php5/cli/conf.d/20-xhprof.ini
   notify: Reload apache
 
+- name: Copy tidyways source
+  when: vagrantbox.basebox == 'ubuntu/xenial64'
+  copy:
+    src: "tideways.list"
+    dest: "/etc/apt/sources.list.d/tideways.list"
+  notify: Reload apache
+- name: Add tideways gpg key
+  when: vagrantbox.basebox == 'ubuntu/xenial64'
+  apt_key:
+    url: "https://s3-eu-west-1.amazonaws.com/qafoo-profiler/packages/EEB5E8F4.gpg"
+    state: present
+- name: Install tidyways
+  when: vagrantbox.basebox == 'ubuntu/xenial64'
+  apt: 
+    name: "{{item}}"
+    state: present
+    update_cache: yes
+  with_items:
+    - tideways-php
+    - tideways-daemon
+  notify: Reload apache
+
 - name: Install graphviz
   apt: name=graphviz state=present

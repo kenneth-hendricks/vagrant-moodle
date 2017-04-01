@@ -29,4 +29,4 @@ devtools:
   utils: no # copy over utility scripts to /utils
   moosh: no
   xdebug: no
-  profiling: no
+  profiling: no # will install xhprof for php5, tideways for php7
