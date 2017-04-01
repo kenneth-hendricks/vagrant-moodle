@@ -19,9 +19,14 @@ webserver:
     vmpath: /var/lib/sitedata
   logroot: /var/log/sitelogs
 
-# Database configuration
 database:
   type: pgsql # pgsql or mysqli
   name: moodle
   owner: moodleuser
   password: yourpassword
+
+devtools:
+  utils: no # copy over utility scripts to /utils
+  moosh: no
+  xdebug: no
+  xhprof: no
