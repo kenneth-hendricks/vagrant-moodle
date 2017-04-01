@@ -1,13 +1,13 @@
 - name: Install php5 xdebug
   apt: name=php5-xdebug state=present
-  notify: Reload Apache
+  notify: Reload apache
 
 - name: Copy xdebug.ini over
+  when: vagrantbox.basebox == 'ubuntu/trusty64'
   copy:
     src: "xdebug.ini"
     dest: "/etc/php5/mods-available/xdebug.ini"
-  when: vagrantbox.basebox == 'ubuntu/trusty64'
-  notify: Reload Apache
+  notify: Reload apache
 
 
 

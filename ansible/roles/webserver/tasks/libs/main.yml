@@ -1,11 +1,11 @@
-- name: Install Common Libs
+- name: Install common libs
   apt: name={{item}} state=present
   with_items:
     - memcached
-  notify: Reload Apache
+  notify: Reload apache
 
-- when: vagrantbox.basebox == 'ubuntu/trusty64'
-  name: install php5 libs
+- name: Install php5 libs
+  when: vagrantbox.basebox == 'ubuntu/trusty64'
   apt: name={{item}} state=present
   with_items:
     - php5-memcached
@@ -14,10 +14,10 @@
     - php5-xmlrpc
     - php5-intl
     - php5-pgsql
-  notify: Reload Apache
+  notify: Reload apache
 
-- when: vagrantbox.basebox == 'ubuntu/xenial64'
-  name: install php7 libs
+- name: install php7 libs
+  when: vagrantbox.basebox == 'ubuntu/xenial64'
   apt: name={{item}} state=present
   with_items:
     - php7.0-curl
@@ -30,4 +30,4 @@
     - php7.0-zip
     - php7.0-pgsql
     - php7.0-mcrypt
-  notify: Reload Apache
+  notify: Reload apache

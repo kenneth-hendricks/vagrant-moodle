@@ -1,7 +1,7 @@
-- name: install apache
+- name: Install apache
   apt: name=apache2 state=present
 
-- name: Create logs dir
+- name: Create log directory
   file:
     path: /var/log/sitelogs
     state: directory
@@ -10,26 +10,26 @@
   template:
     src: ../templates/virtual-hosts.conf.j2
     dest: /etc/apache2/sites-available/vagrant.conf
-  notify: Reload Apache
+  notify: Reload apache
 - name: Remove default virtual host
   file:
     path: /etc/apache2/sites-enabled/000-default.conf
     state: absent
-  notify: Reload Apache
+  notify: Reload apache
 - name: Enable new vagrant virtual host
   file:
     src: /etc/apache2/sites-available/vagrant.conf
     dest: /etc/apache2/sites-enabled/vagrant.conf
     state: link
-  notify: Reload Apache
+  notify: Reload apache
 
-- when: vagrantbox.basebox == 'ubuntu/trusty64'
-  name: install apache php5 libs
+- name: Install apache php5 libs
+  when: vagrantbox.basebox == 'ubuntu/trusty64'
   apt: name=libapache2-mod-php5 state=present
-  notify: Reload Apache
-- when: vagrantbox.basebox == 'ubuntu/xenial64'
-  name: install apache php7 libs
+  notify: Reload apache
+- name: Install apache php7 libs
+  when: vagrantbox.basebox == 'ubuntu/xenial64'
   apt: name=libapache2-mod-php7.0 state=present
-  notify: Reload Apache
+  notify: Reload apache
 
 

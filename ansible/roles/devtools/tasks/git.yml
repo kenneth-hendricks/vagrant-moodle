@@ -1,2 +1,2 @@
-- name: Install Git
+- name: Install git
   apt: name=git state=present

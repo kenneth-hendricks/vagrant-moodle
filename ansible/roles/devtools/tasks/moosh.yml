@@ -1,14 +1,14 @@
 - include: git.yml
 - include: composer.yml
-- name: Download Moosh
+- name: Download moosh
   git:
     repo: 'git://github.com/tmuras/moosh.git'
     dest: /moosh
-- name: Install Moosh
+- name: Install moosh
   composer:
     command: install
     working_dir: /moosh
-- name: Link Moosh Executable
+- name: Link moosh executable
   file:
     src: /moosh/moosh.php
     dest: /usr/local/bin/moosh

@@ -1,11 +1,11 @@
-- when: devtools.utils
-  name: Copy Utilities Over
+- name: Copy utilities over
+  when: devtools.utils
   include: utils.yml
-- when: devtools.moosh
-  name: Install Moosh
+- name: Install moosh
+  when: devtools.moosh
   include: moosh.yml
-- when: devtools.xdebug
-  name: Install Xdebug
+- name: Install xdebug
+  when: devtools.xdebug
   include: xdebug.yml
 
 

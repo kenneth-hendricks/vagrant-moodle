@@ -1,24 +1,24 @@
 #php5 dependancies
-- when: vagrantbox.basebox == 'ubuntu/trusty64'
-  name: install py2 psycopg2
+- name: Install py2 psycopg2
+  when: vagrantbox.basebox == 'ubuntu/trusty64'
   apt: name=python-psycopg2 state=present
 
 #php7 dependancies
-- when: vagrantbox.basebox == 'ubuntu/xenial64'
-  name: install py3 psycopg2
+- name: Install py3 psycopg2
+  when: vagrantbox.basebox == 'ubuntu/xenial64'
   apt: name=python3-psycopg2 state=present
 
-- name: install postgres
+- name: Install postgres
   when: database.type == 'pgsql'
   apt: name={{item}} state=present
   with_items:
     - postgresql
     - libpq-dev
-- name: ensure database is created
+- name: Create databse
   become_user: postgres
   postgresql_db:
     name: "{{database.name}}"
-- name: ensure user has db access
+- name: Give user DB access
   become_user: postgres
   postgresql_user:
     db: "{{database.name}}"

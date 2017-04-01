@@ -1,2 +1,2 @@
-- name: Install Moodle
+- name: Install moodle
   include: moodle.yml
