@@ -9,6 +9,16 @@
     dest: "/etc/php5/mods-available/xdebug.ini"
   notify: Reload apache
 
+- name: Install php7 xdebug
+  when: vagrantbox.basebox == 'ubuntu/xenial64'
+  apt: name=php-xdebug state=present
+  notify: Reload apache
+- name: Copy php7 xdebug.ini over
+  when: vagrantbox.basebox == 'ubuntu/xenial64'
+  copy:
+    src: "xdebug.ini"
+    dest: "/etc/php/7.0/mods-available/xdebug.ini"
+  notify: Reload apache
 
 
 
