@@ -73,25 +73,6 @@ class DatabaseValidator < BaseValidator
   end
 end
 
-class MoodleValidator < BaseValidator
-  def validate
-    unless check_config_has_keys(%w(sitename adminuser adminpassword))
-      return false
-    end
-
-    sitename = @config['sitename']
-    return false unless is_string?(@config['sitename'])
-
-    adminuser = @config['adminuser']
-    return false unless is_string?(adminuser)
-
-    adminpassword = @config['adminpassword']
-    return false unless is_string?(adminpassword)
-
-    true
-  end
-end
-
 class WebserverValidator < BaseValidator
   def validate
     return false unless check_config_has_keys(%w(type moodle siteroot sitedata logroot), @config)
