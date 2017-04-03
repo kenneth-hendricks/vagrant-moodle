@@ -5,7 +5,7 @@ vagrantbox:
   cores: 2
 
 webserver:
-  type: apache # apache or nginx  
+  type: apache # apache or nginx
   moodle:
     sitename: moodle
     adminuser: admin
@@ -24,9 +24,14 @@ database:
   name: moodle
   owner: moodleuser
   password: yourpassword
+  tuning: yes # apply database tuning
 
 devtools:
   utils: no # copy over utility scripts to /utils
   moosh: no
   xdebug: no
   profiling: no # will install xhprof for php5, tideways for php7
+  phpunit:
+    enabled: no
+    dataroot: /var/lib/phpunitdataroot
+    prefix: phpu_
