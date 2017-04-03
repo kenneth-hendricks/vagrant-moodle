@@ -10,5 +10,8 @@
 - name: Install profiling
   when: devtools.profiling
   include: profiling.yml
+- name: Install phpunit
+  when: devtools.phpunit.enabled
+  include: phpunit.yml
 
 

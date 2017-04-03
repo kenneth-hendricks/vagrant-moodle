@@ -23,10 +23,17 @@ $CFG->admin     = 'admin';
 
 $CFG->directorypermissions = 0777;
 
-require_once(dirname(__FILE__) . '/lib/setup.php');
+// Custom Config settings
 
 //Force a debugging mode regardless the settings in the site administration
 @error_reporting(E_ALL | E_STRICT); // NOT FOR PRODUCTION SERVERS!
 $CFG->debug = (E_ALL | E_STRICT);   // === DEBUG_DEVELOPER - NOT FOR PRODUCTION SERVERS!
 
 $CFG->noemailever = true;
+
+{% if devtools.phpunit.enabled %}
+$CFG->phpunit_prefix = '{{ devtools.phpunit.prefix }}';
+$CFG->phpunit_dataroot = '{{ devtools.phpunit.dataroot }}';
+{% endif %}
+
+require_once(dirname(__FILE__) . '/lib/setup.php');

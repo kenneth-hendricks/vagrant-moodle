@@ -1,0 +1,18 @@
+- include: composer.yml
+
+- name: Composer install moodle
+  composer:
+    command: install
+    working_dir: "{{webserver.siteroot.vmpath}}"
+    no_dev: false
+
+- name: Create phpunit dataroot
+  file:
+    path: "{{devtools.phpunit.dataroot}}"
+    state: directory
+    owner: www-data
+    group: www-data
+    mode: 0777
+
+- name: Initialise moodle phpunit
+  command: php {{webserver.siteroot.vmpath}}/admin/tool/phpunit/cli/init.php

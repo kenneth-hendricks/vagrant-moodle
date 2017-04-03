@@ -99,11 +99,16 @@ end
 
 class DevtoolsValidator < BaseValidator
   def validate
-    return false unless check_config_has_keys(%w(utils moosh xdebug profiling), @config)
+    return false unless check_config_has_keys(%w(utils moosh xdebug profiling phpunit), @config)
     return false unless is_bool?(@config['utils'])
     return false unless is_bool?(@config['moosh'])
     return false unless is_bool?(@config['xdebug'])
     return false unless is_bool?(@config['profiling'])
+
+    phpunitconf = @config['phpunit']
+    return false unless check_config_has_keys(%w(enabled dataroot prefix), phpunitconf)
+    return false unless is_bool?(phpunitconf['enabled'])
+    return false unless is_string?(phpunitconf['prefix'])
     true
   end
 end
@@ -114,7 +119,7 @@ def validate_config(config)
   validators.push(WebserverValidator.new(config['webserver']))
   validators.push(DatabaseValidator.new(config['database']))
   validators.push(DevtoolsValidator.new(config['devtools']))
-  
+
   validators.each do |v|
     unless v.validate
       puts "#{v.class.name} return false. Exiting"
