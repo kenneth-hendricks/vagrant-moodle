@@ -2,6 +2,31 @@
   template:
     src: ../templates/moodle.conf.j2
     dest: "{{webserver.siteroot.vmpath}}/config.php"
+
+- name: Get moodle table count
+  become: yes
+  become_method: sudo
+  become_user: postgres
+  command: psql -d moodle -qAt -c "SELECT count(*) FROM information_schema.tables WHERE table_schema = 'public'"
+  register: tablecount
+
 - name: Install moodle db
-  command: sudo -u www-data php {{webserver.siteroot.vmpath}}/admin/cli/install_database.php --agree-license  --adminuser={{webserver.moodle.adminuser}} --adminpass={{webserver.moodle.adminpassword}} --adminemail={{webserver.moodle.adminemail}}
-  ignore_errors: yes
+  become: yes
+  become_method: sudo
+  become_user: www-data
+  command: >
+      php {{webserver.siteroot.vmpath}}/admin/cli/install_database.php
+        --agree-license
+        --adminuser={{webserver.moodle.adminuser}}
+        --adminpass={{webserver.moodle.adminpassword}}
+        --adminemail={{webserver.moodle.adminemail}}
+        --fullname={{webserver.moodle.sitename}}
+        --shortname={{webserver.moodle.sitename}}
+  when: tablecount.stdout|int == 0
+
+- name: Inject moodle admin email
+  become: yes
+  become_method: sudo
+  become_user: postgres
+  command: psql -d moodle -c "UPDATE mdl_user SET email = '{{webserver.moodle.adminemail}}' WHERE username = '{{webserver.moodle.adminuser}}'"
+  when: tablecount.stdout|int == 0
