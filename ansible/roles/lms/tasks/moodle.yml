@@ -17,16 +17,16 @@
   command: >
       php {{webserver.siteroot.vmpath}}/admin/cli/install_database.php
         --agree-license
-        --adminuser={{webserver.moodle.adminuser}}
-        --adminpass={{webserver.moodle.adminpassword}}
-        --adminemail={{webserver.moodle.adminemail}}
-        --fullname={{webserver.moodle.sitename}}
-        --shortname={{webserver.moodle.sitename}}
+        --adminuser={{lms.adminuser}}
+        --adminpass={{lms.adminpassword}}
+        --adminemail={{lms.adminemail}}
+        --fullname={{lms.sitename}}
+        --shortname={{lms.sitename}}
   when: tablecount.stdout|int == 0
 
 - name: Inject moodle admin email
   become: yes
   become_method: sudo
   become_user: postgres
-  command: psql -d moodle -c "UPDATE mdl_user SET email = '{{webserver.moodle.adminemail}}' WHERE username = '{{webserver.moodle.adminuser}}'"
+  command: psql -d moodle -c "UPDATE mdl_user SET email = '{{lms.adminemail}}' WHERE username = '{{lms.adminuser}}'"
   when: tablecount.stdout|int == 0
