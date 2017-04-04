@@ -4,13 +4,15 @@ vagrantbox:
   memory: 4096 # in megabytes
   cores: 2
 
+database:
+  type: pgsql # pgsql or mysqli
+  name: moodle
+  owner: moodleuser
+  password: yourpassword
+  tuning: yes # apply database tuning
+
 webserver:
   type: apache # apache or nginx
-  moodle:
-    sitename: moodle
-    adminuser: admin
-    adminpassword: password
-    adminemail: admin@mail.com
   siteroot:
     hostpath: ./siteroot
     vmpath: /var/www/siteroot
@@ -19,12 +21,12 @@ webserver:
     vmpath: /var/lib/sitedata
   logroot: /var/log/sitelogs
 
-database:
-  type: pgsql # pgsql or mysqli
-  name: moodle
-  owner: moodleuser
-  password: yourpassword
-  tuning: yes # apply database tuning
+lms:
+  type: moodle
+  sitename: moodle
+  adminuser: admin
+  adminpassword: password
+  adminemail: admin@mail.com
 
 devtools:
   utils: yes # copy over utility scripts to /utils

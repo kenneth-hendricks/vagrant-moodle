@@ -76,9 +76,7 @@ end
 
 class WebserverValidator < BaseValidator
   def validate
-    return false unless check_config_has_keys(%w(type moodle siteroot sitedata logroot), @config)
-    moodleconf = @config['moodle']
-    return false unless check_config_has_keys(%w(sitename adminuser adminpassword adminemail), moodleconf)
+    return false unless check_config_has_keys(%w(type siteroot sitedata logroot), @config)
     siterootconf = @config['siteroot']
     return false unless check_config_has_keys(%w(hostpath vmpath), siterootconf)
     sitedataconf = @config['sitedata']
@@ -87,13 +85,24 @@ class WebserverValidator < BaseValidator
     allowedtypes = %w(apache nginx)
     return false unless array_contains_var?(allowedtypes, @config['type'])
 
-    return false unless is_string?(moodleconf['sitename'])
-    return false unless is_string?(moodleconf['adminuser'])
-    return false unless is_string?(moodleconf['adminpassword'])
-    return false unless is_string?(moodleconf['adminemail'])
-
     return false unless path_exists?(siterootconf['hostpath'])
     return false unless path_exists?(sitedataconf['hostpath'])
+    true
+  end
+end
+
+class LmsValidator < BaseValidator
+  def validate
+    return false unless check_config_has_keys(%w(sitename adminuser adminpassword adminemail), @config)
+
+    allowedtypes = %w(moodle mahara)
+    return false unless array_contains_var?(allowedtypes, @config['type'])
+
+    return false unless is_string?(@config['sitename'])
+    return false unless is_string?(@config['adminuser'])
+    return false unless is_string?(@config['adminpassword'])
+    return false unless is_string?(@config['adminemail'])
+
     true
   end
 end
@@ -119,6 +128,7 @@ def validate_config(config)
   validators.push(VagrantboxValidator.new(config['vagrantbox']))
   validators.push(WebserverValidator.new(config['webserver']))
   validators.push(DatabaseValidator.new(config['database']))
+  validators.push(LmsValidator.new(config['lms']))
   validators.push(DevtoolsValidator.new(config['devtools']))
 
   validators.each do |v|
