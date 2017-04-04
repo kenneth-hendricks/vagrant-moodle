@@ -1,5 +1,15 @@
-- name: Copy utils folder over
-  copy:
-    src: "utils"
-    dest: "/"
+- name: Create utils folder
+  file:
+    path: /utils
+    state: directory
     mode: 0777
+
+- name: Template bash utils over
+  template:
+    src: "{{item}}.j2"
+    dest: "/utils/{{item}}.sh"
+    mode: 0777
+  with_items:
+    - change_db_owner
+    - clean_moodle_data
+    - restore_db_dump
