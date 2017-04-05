@@ -1,11 +1,20 @@
 <VirtualHost *:80>
   ServerAdmin webmaster@localhost
+  {% if lms.type == 'mahara' %}
+  DocumentRoot {{ webserver.siteroot.vmpath }}/htdocs
+  {% else %}
   DocumentRoot {{ webserver.siteroot.vmpath }}
+  {% endif %}
 
   <Directory {{ webserver.siteroot.vmpath }}>
+    Options Indexes FollowSymLinks MultiViews
     Require all granted
   </Directory>
 
   ErrorLog {{ webserver.logroot }}/error.log
   CustomLog {{ webserver.logroot }}/access.log combined
+
+  {% if lms.type == 'mahara' %}
+  DirectoryIndex index.php index.html
+  {% endif %}
 </VirtualHost>

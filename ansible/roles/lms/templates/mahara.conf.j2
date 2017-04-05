@@ -22,3 +22,5 @@ $cfg->dbuser   = '{{ database.owner }}';
 $cfg->dbpass   = '{{ database.password }}';
 $cfg->dataroot = '{{ webserver.sitedata.vmpath }}';
 $cfg->productionmode = false;
+
+$cfg->wwwroot = 'http://{{ remoteip }}';
