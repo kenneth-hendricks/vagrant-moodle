@@ -1,2 +1,6 @@
 - name: Install moodle
   include: moodle.yml
+  when: lms.type == 'moodle'
+- name: Install mahara
+  include: mahara.yml
+  when: lms.type == 'mahara'

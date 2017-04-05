@@ -1,0 +1,36 @@
+- name: Install Node
+  include: node.yml
+
+- name: Install required mahara packages
+  apt: name={{item}} state=present
+  with_items:
+    - git
+
+- name: NPM install
+  npm:
+    path: "{{webserver.siteroot.vmpath}}"
+
+- name: NPM install gulp
+  npm:
+    name: gulp
+    global: yes
+
+- name: Template mahara config
+  template:
+    src: mahara.conf.j2
+    dest: "{{webserver.siteroot.vmpath}}/htdocs/config.php"
+
+- name: Make CSS
+  command: make css
+  args:
+    chdir: "{{webserver.siteroot.vmpath}}"
+
+- name: Install mahara
+  become: yes
+  become_method: sudo
+  become_user: www-data
+  command: >
+      php {{webserver.siteroot.vmpath}}/htdocs/admin/cli/install.php
+        --adminpassword={{lms.adminpassword}}
+        --adminemail={{lms.adminemail}}
+        --sitename={{lms.sitename}}
