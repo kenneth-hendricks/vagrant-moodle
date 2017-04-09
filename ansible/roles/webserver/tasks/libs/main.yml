@@ -14,6 +14,7 @@
     - php5-xmlrpc
     - php5-intl
     - php5-pgsql
+    - php5-mysql
   notify: Reload apache
 
 - name: install php7 libs
@@ -30,4 +31,5 @@
     - php7.0-zip
     - php7.0-pgsql
     - php7.0-mcrypt
+    - php7.0-mysql
   notify: Reload apache

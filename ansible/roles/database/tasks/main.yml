@@ -2,5 +2,5 @@
   when: database.type == 'pgsql'
   include: pgsql.yml
 - name: Install mysql
-  when: database.type == 'mysql'
+  when: database.type == 'mysqli'
   include: mysql.yml

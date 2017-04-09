@@ -3,12 +3,18 @@
     src: moodle.conf.j2
     dest: "{{webserver.siteroot.vmpath}}/config.php"
 
-- name: Get moodle table count
+- name: Get psql moodle table count
   become: yes
   become_method: sudo
   become_user: postgres
   command: psql -d moodle -qAt -c "SELECT count(*) FROM information_schema.tables WHERE table_schema = 'public'"
   register: tablecount
+  when: database.type == 'pgsql'
+
+- name: Get mysql moodle table count
+  command: echo 0
+  register: tablecount
+  when: database.type == 'mysqli'
 
 - name: Install moodle db
   become: yes
@@ -22,11 +28,14 @@
         --adminemail={{lms.adminemail}}
         --fullname={{lms.sitename}}
         --shortname={{lms.sitename}}
-  when: tablecount.stdout|int == 0
+  when: 
+    - tablecount.stdout|int == 0
 
 - name: Inject moodle admin email
   become: yes
   become_method: sudo
   become_user: postgres
   command: psql -d moodle -c "UPDATE mdl_user SET email = '{{lms.adminemail}}' WHERE username = '{{lms.adminuser}}'"
-  when: tablecount.stdout|int == 0
+  when: 
+    - tablecount.stdout|int == 0
+    - database.type == 'pgsql'

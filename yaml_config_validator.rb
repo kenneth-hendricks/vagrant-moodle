@@ -64,7 +64,7 @@ end
 class DatabaseValidator < BaseValidator
   def validate
     return false unless check_config_has_keys(%w(type name owner password tuning), @config)
-    allowedtypes = %w(pgsql mysql)
+    allowedtypes = %w(pgsql mysqli)
     return false unless array_contains_var?(allowedtypes, @config['type'])
     return false unless is_string?(@config['name'])
     return false unless is_string?(@config['owner'])
