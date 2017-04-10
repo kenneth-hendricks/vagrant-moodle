@@ -8,13 +8,17 @@
   become_method: sudo
   become_user: postgres
   command: psql -d moodle -qAt -c "SELECT count(*) FROM information_schema.tables WHERE table_schema = 'public'"
-  register: tablecount
+  register: pgsql_tablecount
   when: database.type == 'pgsql'
 
 - name: Get mysql moodle table count
   command: echo 0
-  register: tablecount
+  register: mysqli_tablecount
   when: database.type == 'mysqli'
+
+- name: combine tablecounts
+  set_fact:
+    tablecount: "{{ pgsql_tablecount if database.type == 'pgsql' else mysqli_tablecount }}"
 
 - name: Install moodle db
   become: yes
@@ -28,14 +32,13 @@
         --adminemail={{lms.adminemail}}
         --fullname={{lms.sitename}}
         --shortname={{lms.sitename}}
-  when: 
-    - tablecount.stdout|int == 0
+  when: tablecount.stdout|int == 0
 
 - name: Inject moodle admin email
   become: yes
   become_method: sudo
   become_user: postgres
   command: psql -d moodle -c "UPDATE mdl_user SET email = '{{lms.adminemail}}' WHERE username = '{{lms.adminuser}}'"
-  when: 
+  when:
     - tablecount.stdout|int == 0
     - database.type == 'pgsql'
