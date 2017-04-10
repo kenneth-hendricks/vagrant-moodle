@@ -95,7 +95,7 @@ class LmsValidator < BaseValidator
   def validate
     return false unless check_config_has_keys(%w(sitename adminuser adminpassword adminemail), @config)
 
-    allowedtypes = %w(moodle mahara)
+    allowedtypes = %w(moodle mahara none)
     return false unless array_contains_var?(allowedtypes, @config['type'])
 
     return false unless is_string?(@config['sitename'])

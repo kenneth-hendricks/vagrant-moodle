@@ -22,7 +22,7 @@ webserver:
   logroot: /var/log/sitelogs
 
 lms:
-  type: moodle #moodle or mahara
+  type: moodle #moodle, mahara or none
   sitename: moodle
   adminuser: admin
   adminpassword: password
