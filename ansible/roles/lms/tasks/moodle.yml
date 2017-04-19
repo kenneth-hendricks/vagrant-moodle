@@ -24,6 +24,7 @@
   become: yes
   become_method: sudo
   become_user: www-data
+  ignore_errors: yes
   command: >
       php {{webserver.siteroot.vmpath}}/admin/cli/install_database.php
         --agree-license
