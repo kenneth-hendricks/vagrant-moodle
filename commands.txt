@@ -2,4 +2,7 @@ ctags -R --languages=php --php-kinds=f \
 --regex-PHP='/abstract +class +([^ ]*)/\1/c/' \
 --regex-PHP='/interface +([^ ]*)/\1/c/' \
 --regex-PHP='/(public |static |abstract |protected |private )+ *function +([^ (]*)/\2/f/' \
---exclude=sitedata
+--exclude=sitedata --exclude=local/aws
+
+
+sudo locale-gen en_AU.UTF-8
