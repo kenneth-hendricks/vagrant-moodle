@@ -1,5 +1,8 @@
 - include: composer.yml
 
+- name: Set local
+  command: locale-gen en_AU.UTF-8
+
 - name: Composer install moodle
   composer:
     command: install
