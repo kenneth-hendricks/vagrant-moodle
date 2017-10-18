@@ -1,6 +1,8 @@
 require 'yaml'
 require_relative 'yaml_config_validator'
 
+ENV["LC_ALL"] = "en_US.UTF-8"
+
 # Vagrantfile API version.
 VAGRANTFILE_VERSION = '2'.freeze
 
