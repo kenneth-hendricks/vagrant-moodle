@@ -1,10 +1,18 @@
-- name: Install mysql
+- name: Install mysql trusty
   apt: name={{item}} state=present
+  when: vagrantbox.basebox == 'ubuntu/trusty64'
   with_items:
     - mysql-server-5.6
     - python-mysqldb
 
-- name: Create databse
+- name: Install mysql xenial
+  apt: name={{item}} state=present
+  when: vagrantbox.basebox == 'ubuntu/xenial64'
+  with_items:
+    - mysql-server-5.7
+    - python3-mysqldb
+
+- name: Create database
   mysql_db:
     name: "{{database.name}}"
     encoding: utf8
