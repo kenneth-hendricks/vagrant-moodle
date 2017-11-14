@@ -24,14 +24,15 @@
     dest: "/etc/postgresql/9.3/main/postgresql.conf"
   notify: Reload postgres
 
-- name: insert/update postgresql conf
-  when:
-      - database.tuning
-      - vagrantbox.basebox == 'ubuntu/xenial64'
-  blockinfile:
-    block: "{{ lookup('file', 'psql-conf-settings.conf') }}"
-    dest: "/etc/postgresql/9.5/main/postgresql.conf"
-  notify: Reload postgres
+# doesnt work - need to update settings
+# - name: insert/update postgresql conf
+#   when:
+#       - database.tuning
+#       - vagrantbox.basebox == 'ubuntu/xenial64'
+#   blockinfile:
+#     block: "{{ lookup('file', 'psql-conf-settings.conf') }}"
+#     dest: "/etc/postgresql/9.5/main/postgresql.conf"
+#   notify: Reload postgres
 
 - name: Create databse
   become_user: postgres
